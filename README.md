@@ -19,5 +19,7 @@ HOME_PASSWORD="home_net_pass"
 WPA_ESSID=eduroam
 WPA_PASSWORD="eduroam_pass"
 WPA_COUNTRY=NL
+KEYBOARD_KEYMAP="us"
+LOCALE_DEFAULT="en_US.UTF-8"
 
 ```
