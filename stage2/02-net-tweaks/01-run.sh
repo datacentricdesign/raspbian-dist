@@ -1,21 +1,22 @@
 #!/bin/bash -e
 
 install -v -d                             "${ROOTFS_DIR}/etc/systemd/system/dhcpcd.service.d"
-install -v -m 644 files/wait.conf		"${ROOTFS_DIR}/etc/systemd/system/dhcpcd.service.d/"
+install -v -m 644 files/wait.conf         "${ROOTFS_DIR}/etc/systemd/system/dhcpcd.service.d/"
 
-install -v -d					"${ROOTFS_DIR}/etc/wpa_supplicant"
-install -v -m 600 files/wpa_supplicant.conf	"${ROOTFS_DIR}/etc/wpa_supplicant/"
+install -v -d                             "${ROOTFS_DIR}/etc/wpa_supplicant"
+install -v -m 600 files/wpa_supplicant.conf      "${ROOTFS_DIR}/etc/wpa_supplicant/"
 
 
 install -v -d                             "${ROOTFS_DIR}/etc/systemd/system/wpa_supplicant@.service.d"
-install -v -m 644 files/wext.conf
+install -v -m 644 files/wext.conf         "${ROOTFS_DIR}/etc/systemd/system/wpa_supplicant@.service.d/"
 
 # if [ -v WPA_COUNTRY ]; then
 #  echo "country=${WPA_COUNTRY}" >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf"
 # fi
 
+
 if [ -v WPA_ESSID ] && [ -v WPA_PASSWORD ]; then
-HASH = $(echo -n ${WPA_PASSWORD} | iconv -t UTF-16LE | openssl md4  -binary | xxd -p)
+HASH=$(echo -n ${WPA_PASSWORD} | iconv -t UTF-16LE | openssl md4  -binary | xxd -p)
 cat >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf" << EOL
 
 network={
@@ -34,8 +35,8 @@ network={
 }
 
 network={
-	ssid="${WPA_ESSID}"
-	key_mgmt=NONE
+       ssid="${WPA_ESSID}"
+       key_mgmt=NONE
 }
 
 EOL
@@ -43,13 +44,13 @@ fi
 
 
 if [ -v HOME_ESSID] && [ -v HOME_PASSWORD ]; then
-HASH = $(echo -n ${HOME_PASSWORD} | iconv -t UTF-16LE | openssl md4  -binary | xxd -p)
+HASH=$(echo -n ${HOME_PASSWORD} | iconv -t UTF-16LE | openssl md4  -binary | xxd -p)
 
 cat >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf" << EOL
 
 network={
-	ssid="${HOME_ESSID}"
-	password=hash:${HASH}
+       ssid="${HOME_ESSID}"
+       password=hash:${HASH}
 }
 
 
