@@ -8,7 +8,7 @@ install -v -m 600 files/wpa_supplicant.conf	"${ROOTFS_DIR}/etc/wpa_supplicant/"
 
 
 install -v -d                             "${ROOTFS_DIR}/etc/systemd/system/wpa_supplicant@.service.d"
-install -v -m 644 files/wext.conf
+install -v -m 644 files/wext.conf	  "${ROOTFS_DIR}/etc/systemd/system/wpa_supplicant@.service.d/"	
 
 # if [ -v WPA_COUNTRY ]; then
 #  echo "country=${WPA_COUNTRY}" >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf"
