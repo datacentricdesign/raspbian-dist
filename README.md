@@ -2,7 +2,7 @@
 Custom raspbian distribution, integrated with dcd-sdk, running custom services. 
 
 ## Use instructions
-* Run from Debian buster 10.0
+* Run from Debian 10 buster
 * Make sure to install dependencies mentioned in the pi-gen repo.
 * make sure to install pip `sudo apt-get install python3-pip`
 * Clone the [pi-gen repo](https://github.com/RPi-Distro/pi-gen)
