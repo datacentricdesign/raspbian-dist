@@ -7,7 +7,8 @@ Custom raspbian distribution, integrated with dcd-sdk, running custom services.
 * make sure to install pip `sudo apt-get install python3-pip`
 * More details for building in [pi-gen repo](https://github.com/RPi-Distro/pi-gen)
 
-* Configure the config file like so:
+### Build Instructions ( Docker)
+1. Create and configure "config" file like so:
 ```
 IMG_NAME=DCDbian
 TARGET_HOSTNAME="pi_netid"
@@ -25,3 +26,4 @@ KEYBOARD_KEYMAP="us"
 LOCALE_DEFAULT="en_US.UTF-8"
 
 ```
+2. run ./build-docker.sh
