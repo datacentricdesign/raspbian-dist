@@ -11,7 +11,7 @@ Custom raspbian distribution, integrated with dcd-sdk, running custom services.
 1. Create and configure "config" file like so:
 ```
 IMG_NAME=DCDbian
-TARGET_HOSTNAME="pi_netid"
+TARGET_HOSTNAME="pi-netid"
 KEYBOARD_LAYOUT="English (US)"
 TIMEZONE_DEFAULT=Europe/Amsterdam
 FIRST_USER_NAME="netid"
