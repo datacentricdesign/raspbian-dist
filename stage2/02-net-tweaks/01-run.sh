@@ -46,10 +46,7 @@ network={
 }
 
 EOL
-fi
 
-
-if [ -v HOME_ESSID] && [ -v HOME_PASSWORD ]; then
 HASH=$(echo -n ${HOME_PASSWORD} | iconv -t UTF-16LE | openssl md4  -binary | xxd -p)
 
 cat >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf" << EOL
@@ -61,7 +58,9 @@ network={
 
 
 EOL
+
 fi
+
 
 # Disable wifi on 5GHz models
 mkdir -p "${ROOTFS_DIR}/var/lib/systemd/rfkill/"
