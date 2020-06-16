@@ -1,0 +1,16 @@
+[Unit]
+  Description=Automatically send device IP to DCD hub using a python sdk
+  Wants=network-online.target
+  After=network-online.target
+
+  [Service]
+
+  ExecStart=/usr/bin/python3.7 /etc/systemd/system/service_scripts/python/ip.py
+  StandardOutput=syslog 
+  StandardError=syslog 
+  Restart=always
+  RestartSec=10
+  User=pi
+
+  [Install]
+  WantedBy=multi-user.target
