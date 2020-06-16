@@ -8,7 +8,7 @@ install -v -m 600 files/wpa_supplicant.conf      "${ROOTFS_DIR}/etc/wpa_supplica
 
 # place scripts services depend on
 install -v -d                             "${ROOTFS_DIR}/etc/systemd/system/service_scripts"
-install -v -m 644 files/eduroam.sh	       "${ROOTFS_DIR}/etc/systemd/system/service_scripts/"	
+install -v -m 755 files/eduroam.sh	       "${ROOTFS_DIR}/etc/systemd/system/service_scripts/"	
 
 # place eduroam services
 install -v -m 644 files/eduroam.service       "${ROOTFS_DIR}/etc/systemd/system/"
@@ -70,3 +70,8 @@ echo 1 > "${ROOTFS_DIR}/var/lib/systemd/rfkill/platform-fe300000.mmcnr:wlan"
 
 
 # Activate all services 
+# install python services 
+on_chroot << EOF
+systemctl enable eduroam.service
+
+EOF
