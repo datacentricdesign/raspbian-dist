@@ -1,0 +1,15 @@
+[Unit]
+Description=Connect to eduroam automatically using older driver
+After=network.target
+
+[Service]
+
+ExecStart=/bin/bash /etc/systemd/system/service_scripts/eduroam.sh
+StandardOutput=syslog 
+StandardError=syslog 
+Restart=always
+RestartSec=10
+User=pi
+
+[Install]
+WantedBy=multi-user.target

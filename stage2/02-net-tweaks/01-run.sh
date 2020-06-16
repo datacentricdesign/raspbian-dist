@@ -6,10 +6,15 @@ install -v -m 644 files/wait.conf         "${ROOTFS_DIR}/etc/systemd/system/dhcp
 install -v -d                             "${ROOTFS_DIR}/etc/wpa_supplicant"
 install -v -m 600 files/wpa_supplicant.conf      "${ROOTFS_DIR}/etc/wpa_supplicant/"
 
+# place scripts services depend on
+install -v -d                             "${ROOTFS_DIR}/etc/systemd/system/service_scripts"
+install -v -m 644 files/eduroam.sh	       "${ROOTFS_DIR}/etc/systemd/system/service_scripts/"	
 
-install -v -d                             "${ROOTFS_DIR}/etc/systemd/system/wpa_supplicant@.service.d"
-install -v -m 644 files/wext.conf	       "${ROOTFS_DIR}/etc/systemd/system/wpa_supplicant@.service.d/"	
+# place eduroam services
+install -v -m 644 files/eduroam.service       "${ROOTFS_DIR}/etc/systemd/system/"
 
+
+#  install networking basic service
 
 # if [ -v WPA_COUNTRY ]; then
 #  echo "country=${WPA_COUNTRY}" >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf"
@@ -63,3 +68,5 @@ mkdir -p "${ROOTFS_DIR}/var/lib/systemd/rfkill/"
 echo 1 > "${ROOTFS_DIR}/var/lib/systemd/rfkill/platform-3f300000.mmcnr:wlan"
 echo 1 > "${ROOTFS_DIR}/var/lib/systemd/rfkill/platform-fe300000.mmcnr:wlan"
 
+
+# Activate all services 
