@@ -27,3 +27,12 @@ LOCALE_DEFAULT="en_US.UTF-8"
 
 ```
 2. run ./build-docker.sh
+
+## System Configurations
+* System comes with DCD python libraries preinstalled
+* Only python3 is available 
+* Custom service scripts are preinstalled in */etc/systemd/system/service_scripts/* 
+  * python service scripts installed in */etc/systemd/system/service_scripts/python/* 
+    * current script sends processor use & ip address to thing token & id found in .env file in stage2 files.
+    * currently token & id are non-functional placeholders. 
+
