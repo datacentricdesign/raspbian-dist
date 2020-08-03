@@ -15,7 +15,7 @@ if ! ${DOCKER} ps >/dev/null; then
 fi
 
 CONFIG_FILE=""
-if [ -f "${DIR}/config" ]; then
+if [ -f "${DIR}/.env" ]; then
 	CONFIG_FILE="${DIR}/config"
 fi
 

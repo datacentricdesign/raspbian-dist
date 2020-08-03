@@ -1,4 +1,5 @@
 work/
-config
+.env
 deploy/
 
+node_modules
