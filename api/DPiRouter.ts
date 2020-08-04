@@ -32,7 +32,7 @@ DPIRouter.get(
 
 /**
      * @api {post} /
-     * @apiGroup Person
+     * @apiGroup DPi
      * @apiDescription Generate a new DPi Image
      *
      * @apiVersion 0.1.0

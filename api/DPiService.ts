@@ -18,7 +18,9 @@ export class DPiService {
      * @param {strind} dpiId
      * returns DPi
      **/
-    async getOneDPIImage(dpiId: string): Promise<DPi> {
+    async getOneDPiImage(dpiId: string, download: boolean): Promise<DPi> {
+        // TODO: read and return file in ./dpi/<dpiId>
+        // TODO: if download and image ready, send file
         return Promise.reject();
     }
 
@@ -29,6 +31,11 @@ export class DPiService {
      * returns DPi
      **/
     async generateNewDPi(dtoDPi: DTODPi): Promise<DPi> {
+        // TODO: use the values from dtoDPi as env var
+        // TODO: generate an id
+        // TODO: run container
+        // TODO: write updates into ./dpi/<dpiId>
+
         return Promise.reject();
     }
 }

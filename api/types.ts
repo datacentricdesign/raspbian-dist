@@ -21,7 +21,7 @@ export interface DPi {
 }
 
 export interface DTODPi {
-    id?: string;
+    thingId: string;
     email?: string;
     createdAt?: Date;
     status?: string;

@@ -12,11 +12,13 @@ export class DPiController {
 
     static getOneDPIImage = async (req: Request, res: Response) => {
         const dpiId = req.params.dpiId
-        DPiController.dpiService.getOneDPIImage(dpiId)
+        const download = req.params.download !== undefined ? req.params.download === 'true' : false;
+        DPiController.dpiService.getOneDPiImage(dpiId, download)
     };
 
     static generateNewDPIImage = async (req: Request, res: Response, next: NextFunction) => {
         const dtoDpi = req.body;
+
         DPiController.dpiService.generateNewDPi(dtoDpi)
     };
 }
