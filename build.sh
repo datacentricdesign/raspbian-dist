@@ -125,10 +125,17 @@ fi
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export BASE_DIR
 
-if [ -f config ]; then
+
+echo $BASE_DIR
+
+
+
+if [ -f .env ]; then
 	# shellcheck disable=SC1091
-	source config
+	source .env
 fi
+
+
 
 while getopts "c:" flag
 do
@@ -142,6 +149,7 @@ do
 			;;
 	esac
 done
+
 
 export PI_GEN=${PI_GEN:-pi-gen}
 export PI_GEN_REPO=${PI_GEN_REPO:-https://github.com/RPi-Distro/pi-gen}

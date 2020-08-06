@@ -1,5 +1,11 @@
 #!/bin/bash -eu
+
+
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# create dir for user thing id image
+REQ_DIR="$( mkdir -p ./images/$1 && echo "$PWD/images/$1" )"
 
 BUILD_OPTS="$*"
 
@@ -15,8 +21,8 @@ if ! ${DOCKER} ps >/dev/null; then
 fi
 
 CONFIG_FILE=""
-if [ -f "${DIR}/.env" ]; then
-	CONFIG_FILE="${DIR}/config"
+if [ -f "${REQ_DIR}/.env" ]; then
+	CONFIG_FILE="${REQ_DIR}/.env"
 fi
 
 while getopts "c:" flag
@@ -37,14 +43,16 @@ fi
 
 # Ensure that the confguration file is present
 if test -z "${CONFIG_FILE}"; then
-	echo "Configuration file need to be present in '${DIR}/config' or path passed as parameter"
+	echo "Configuration file need to be present in '${REQ_DIR}/config' or path passed as parameter"
 	exit 1
 else
 	# shellcheck disable=SC1090
 	source ${CONFIG_FILE}
 fi
 
-CONTAINER_NAME=${CONTAINER_NAME:-pigen_work}
+
+CONTAINER_NAME=${CONTAINER_NAME:-pigen_$1_work}
+
 CONTINUE=${CONTINUE:-0}
 PRESERVE_CONTAINER=${PRESERVE_CONTAINER:-0}
 
@@ -71,7 +79,8 @@ if [ "${CONTAINER_EXISTS}" != "" ] && [ "${CONTINUE}" != "1" ]; then
 fi
 
 # Modify original build-options to allow config file to be mounted in the docker container
-BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /config@')"
+BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /.env@')"
+BUILD_OPTS="-c ./images/$1/.env"
 
 ${DOCKER} build -t pi-gen "${DIR}"
 if [ "${CONTAINER_EXISTS}" != "" ]; then
@@ -97,12 +106,12 @@ else
 	wait "$!"
 fi
 echo "copying results from deploy/"
-${DOCKER} cp "${CONTAINER_NAME}":/pi-gen/deploy .
-ls -lah deploy
+${DOCKER} cp "${CONTAINER_NAME}":/pi-gen/deploy ./images/$1
+ls -lah ./images/$1
 
 # cleanup
 if [ "${PRESERVE_CONTAINER}" != "1" ]; then
 	${DOCKER} rm -v "${CONTAINER_NAME}"
 fi
 
-echo "Done! Your image(s) should be in deploy/"
+echo "Done! Your image(s) should be in images/$1/"
