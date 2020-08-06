@@ -2,7 +2,15 @@
 
 # place scripts services depend on
 install -v -d                          "${ROOTFS_DIR}/etc/systemd/system/service_scripts/python"
-install -v -m 755 files/ip.py	       "${ROOTFS_DIR}/etc/systemd/system/service_scripts/python/"	
+install -v -m 755 files/ip.py	       "${ROOTFS_DIR}/etc/systemd/system/service_scripts/python/"
+
+# update .env file 
+cat > files/.env << EOF
+THING_ID=${THING_ID}
+THING_TOKEN=${THING_TOKEN}
+EOF
+
+
 install -v -m 644 files/.env	       "${ROOTFS_DIR}/etc/systemd/system/service_scripts/python/"	
 
 # place ip service
