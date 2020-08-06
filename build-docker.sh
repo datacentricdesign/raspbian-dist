@@ -7,6 +7,10 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # create dir for user thing id image
 REQ_DIR="$( mkdir -p ./images/$1 && echo "$PWD/images/$1" )"
 
+# create status file 
+touch ./images/$1/status.txt && echo "Starting Image Generation" > ./images/$1/status.txt
+
+
 BUILD_OPTS="$*"
 
 DOCKER="docker"
@@ -114,4 +118,5 @@ if [ "${PRESERVE_CONTAINER}" != "1" ]; then
 	${DOCKER} rm -v "${CONTAINER_NAME}"
 fi
 
-echo "Done! Your image(s) should be in images/$1/"
+
+echo "Done! Your image(s) should be in images/$1/" > ./images/$1/status.txt
