@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import DPiController from "./DPiController";
 
-export const DPIRouter = Router();
+export const DPiRouter = Router();
 
 /**
  * @api {get} /health
@@ -13,7 +13,7 @@ export const DPIRouter = Router();
  *
  * @apiSuccess {object} health status
 **/
-DPIRouter.get(
+DPiRouter.get(
     "/health",
     DPiController.apiHealth);
 
@@ -26,7 +26,7 @@ DPIRouter.get(
  *
  * @apiSuccess {DPi}
 **/
-DPIRouter.get(
+DPiRouter.get(
     "/:dpiId",
     DPiController.getOneDPIImage);
 
@@ -42,6 +42,32 @@ DPIRouter.get(
      *
      * @apiSuccess {DPi}
      **/
-DPIRouter.post(
+DPiRouter.post(
     "/",
     DPiController.generateNewDPIImage);
+
+/**
+     * @api {delete} /dpi/:dpiId Delete
+     * @apiGroup DPi
+     * @apiDescription Delete DPi Image
+     *
+     * @apiVersion 0.1.0
+     *
+     * @apiSuccess {DPi}
+     **/
+DPiRouter.delete(
+    "/:dpiId",
+    DPiController.deleteDPiImage);
+
+/**
+     * @api {delete} /dpi/:dpiId Cancel
+     * @apiGroup DPi
+     * @apiDescription Cancel DPi Image Generation
+     *
+     * @apiVersion 0.1.0
+     *
+     * @apiSuccess {DPi}
+     **/
+DPiRouter.get(
+    "/:dpiId/cancel",
+    DPiController.cancelDPiImageGeneration);

@@ -1,10 +1,43 @@
 version: '2'
 
 services:
-  apt-cacher-ng:
-    restart: unless-stopped
-    image: sameersbn/apt-cacher-ng:latest
-    ports:
-    - "3142:3142"
+
+  dpi-api:
+    build:
+      context: ./api
+    container_name: dpi-api
+    environment: 
+      - HOST_DATA_FOLDER=$HOST_DATA_FOLDER
+      
+      - NODE_ENV=$NODE_ENV
+
+      - HTTP_HOST=$HTTP_HOST
+      - HTTP_PORT=$HTTP_PORT
+      - HTTP_SECURED=$HTTP_SECURED
+      - HTTP_BASE_URL=$HTTP_BASE_URL
+      
+      - IMG_NAME=$IMG_NAME
+      - KEYBOARD_LAYOUT=$KEYBOARD_LAYOUT
+      - KEYBOARD_KEYMAP=$KEYBOARD_KEYMAP
+      - TIMEZONE_DEFAULT=$TIMEZONE_DEFAULT
+      - ENABLE_SSH=$ENABLE_SSH
+      - LOCALE_DEFAULT=$LOCALE_DEFAULT
+    
     volumes:
-    - ./apt-cacher-ng:/var/cache/apt-cacher-ng
+      - $HOST_DATA_FOLDER:$HOST_DATA_FOLDER
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 8081:8081
+  
+  # apt-cacher-ng:
+  #   restart: unless-stopped
+  #   image: sameersbn/apt-cacher-ng:latest
+  #   ports:
+  #   - "3142:3142"
+  #   volumes:
+  #   - ./apt-cacher-ng:/var/cache/apt-cacher-ng
+
+networks: 
+  default:
+      external:
+        name: dcd-net

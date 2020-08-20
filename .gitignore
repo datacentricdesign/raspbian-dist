@@ -3,3 +3,7 @@ work/
 deploy/
 
 node_modules
+
+images
+
+logs

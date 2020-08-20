@@ -126,7 +126,8 @@ BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export BASE_DIR
 
 
-echo $BASE_DIR
+echo "Base dir: ${BASE_DIR}"
+echo "$(cat /config)"
 
 
 

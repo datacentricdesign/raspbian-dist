@@ -5,10 +5,10 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # create dir for user thing id image
-REQ_DIR="$( mkdir -p ./images/$1 && echo "$PWD/images/$1" )"
+REQ_DIR="$( mkdir -p $2/$1 && echo "$2/$1" )"
 
 # create status file 
-touch ./images/$1/status.txt && echo "Starting Image Generation" > ./images/$1/status.txt
+touch $2/$1/status.txt && echo "Starting Image Generation" > $2/$1/status.txt
 
 
 BUILD_OPTS="$*"
@@ -40,6 +40,8 @@ do
 	esac
 done
 
+echo "The config file path: $CONFIG_FILE"
+
 # Ensure that the configuration file is an absolute path
 if test -x /usr/bin/realpath; then
 	CONFIG_FILE=$(realpath -s "$CONFIG_FILE" || realpath "$CONFIG_FILE")
@@ -67,7 +69,8 @@ exit 1
 fi
 
 # Ensure the Git Hash is recorded before entering the docker container
-GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
+# GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
+GIT_HASH="06eb0e4514b75fbc367ec036a15e6d1c10315b49"
 
 CONTAINER_EXISTS=$(${DOCKER} ps -a --filter name="${CONTAINER_NAME}" -q)
 CONTAINER_RUNNING=$(${DOCKER} ps --filter name="${CONTAINER_NAME}" -q)
@@ -84,13 +87,13 @@ fi
 
 # Modify original build-options to allow config file to be mounted in the docker container
 BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /.env@')"
-BUILD_OPTS="-c ./images/$1/.env"
+BUILD_OPTS="-c /config"
 
 ${DOCKER} build -t pi-gen "${DIR}"
 if [ "${CONTAINER_EXISTS}" != "" ]; then
 	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}_cont' SIGINT SIGTERM
 	time ${DOCKER} run --rm --privileged \
-		--volume "${CONFIG_FILE}":/config:ro \
+		--volume ${CONFIG_FILE}:/config:ro \
 		-e "GIT_HASH=${GIT_HASH}" \
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
 		pi-gen \
@@ -110,8 +113,8 @@ else
 	wait "$!"
 fi
 echo "copying results from deploy/"
-${DOCKER} cp "${CONTAINER_NAME}":/pi-gen/deploy ./images/$1
-ls -lah ./images/$1
+${DOCKER} cp "${CONTAINER_NAME}":/pi-gen/deploy $2/$1
+ls -lah $2/$1
 
 # cleanup
 if [ "${PRESERVE_CONTAINER}" != "1" ]; then
@@ -119,4 +122,4 @@ if [ "${PRESERVE_CONTAINER}" != "1" ]; then
 fi
 
 
-echo "Done! Your image(s) should be in images/$1/" > ./images/$1/status.txt
+echo "Done! Your image(s) should be in $2/$1/" > $2/$1/status.txt

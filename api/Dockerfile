@@ -1,0 +1,36 @@
+FROM node:14.6.0-stretch
+
+RUN apt-get update
+
+RUN apt-get install software-properties-common \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common -y
+
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+
+RUN apt-key fingerprint 0EBFCD88
+
+RUN add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/debian \
+   $(lsb_release -cs) \
+   stable"
+
+RUN apt-get update
+
+RUN apt-get install docker-ce-cli -y
+
+# Create app directory
+WORKDIR /usr/app
+
+# Install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy sources
+COPY . .
+
+# Run the production script
+CMD [ "npm", "run", "start" ]
