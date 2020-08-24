@@ -14,4 +14,6 @@ RUN apt-get -y update && \
 
 COPY . /pi-gen/
 
+RUN ls /pi-gen -lah
+
 VOLUME [ "/pi-gen/work", "/pi-gen/deploy"]
