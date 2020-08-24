@@ -89,7 +89,7 @@ fi
 BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /.env@')"
 BUILD_OPTS="-c /config"
 
-# 
+# modprobe binfmt_misc && 
 
 echo $(mount | grep binfmt)
 
@@ -101,7 +101,7 @@ if [ "${CONTAINER_EXISTS}" == "" ]; then
 		--volume "$2/$1/status.json":/status.json \
 		-e "GIT_HASH=${GIT_HASH}" \
 		pi-gen \
-		bash -e -o pipefail -c "modprobe binfmt_misc && dpkg-reconfigure qemu-user-static && ./build.sh ${BUILD_OPTS} && rsync -av work/*/build.log deploy/" &
+		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static && ./build.sh ${BUILD_OPTS} && rsync -av work/*/build.log deploy/" &
 	wait "$!"
 fi
 echo "copying results from deploy/"
