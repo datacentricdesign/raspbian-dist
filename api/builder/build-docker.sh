@@ -91,6 +91,8 @@ BUILD_OPTS="-c /config"
 
 # 
 
+echo $(mount | grep binfmt)
+
 ${DOCKER} build -t pi-gen "${DIR}"
 if [ "${CONTAINER_EXISTS}" == "" ]; then
 	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}' SIGINT SIGTERM
