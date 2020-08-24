@@ -100,7 +100,7 @@ if [ "${CONTAINER_EXISTS}" != "" ]; then
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
 		--volume "$2/$1/status.json":/status.json \
 		pi-gen \
-		bash -e -o pipefail -c "echo $(ls /pi-gen) && dpkg-reconfigure qemu-user-static &&
+		bash -e -o pipefail -c "echo $(ls) && dpkg-reconfigure qemu-user-static &&
 	cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
 	rsync -av work/*/build.log deploy/" &
 	wait "$!"
