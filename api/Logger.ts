@@ -48,5 +48,6 @@ export class Log {
 }
 
 function logToTransport(logObject: ILogObject) {
+  console.log(JSON.stringify(logObject.argumentsArray))
   appendFileSync(config.hostDataFolder + '/logs/log.txt', JSON.stringify(logObject) + "\n");
 }
