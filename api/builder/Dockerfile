@@ -23,7 +23,7 @@ RUN echo "# # # # DockerFile #####"
 RUN ls -lah
 RUN echo "# # # # #####"
 
-RUN ls /lib/modules -lah
+# RUN ls /lib/modules -lah
 
 RUN echo "# # # # ##### after check lib modules"
 
