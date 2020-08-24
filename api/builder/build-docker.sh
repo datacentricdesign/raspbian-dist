@@ -89,7 +89,7 @@ fi
 BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /.env@')"
 BUILD_OPTS="-c /config"
 
-ls
+echo $(ls)
 
 ${DOCKER} build -t pi-gen "${DIR}"
 if [ "${CONTAINER_EXISTS}" != "" ]; then
