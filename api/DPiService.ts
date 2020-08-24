@@ -88,7 +88,7 @@ export class DPiService {
             enable_SSH: dtoDPi.enable_SSH !== undefined ? dtoDPi.enable_SSH : config.dpi.enable_SSH,
             target_hostname: dtoDPi.target_hostname,
             first_user_name: dtoDPi.first_user_name,
-            first_user_pass: dtoDPi.first_user_pass
+            first_user_pass: dtoDPi.first_user_password
         }
 
         if (dtoDPi.home_ESSID && dtoDPi.home_password) {
