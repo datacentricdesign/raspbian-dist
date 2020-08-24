@@ -10,7 +10,6 @@ import { DPiRouter } from "./DPiRouter";
 import { DPiService } from "./DPiService";
 import { DTODPi } from "./types";
 import { appendFileSync, mkdir } from 'fs'
-import { Logger, ILogObject } from "tslog";
 import { Log } from "./Logger";
 
 Log.init("dPi")
@@ -35,13 +34,18 @@ app.use(cookieParser());
 app.use(config.http.baseUrl + "/", DPiRouter);
 app.use(errorMiddleware)
 
-// Make sure there is a subfolder to store images
+// Make sure there is a subfolder to store images and logs
 mkdir(config.hostDataFolder + '/images', function(error: any) {
   if (error && error.errno !== -17) {
     return Log.error(error)
   }
-  // Start listening for request
-  app.listen(config.http.port, () => {
-    Log.info("Server started on port " + config.http.port + "!");
-  });
+  mkdir(config.hostDataFolder + '/logs', function(error: any) {
+    if (error && error.errno !== -17) {
+      return Log.error(error)
+    }
+    // Start listening for request
+    app.listen(config.http.port, () => {
+      Log.info("Server started on port " + config.http.port + "!");
+    });
+  })
 })
