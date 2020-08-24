@@ -89,16 +89,17 @@ fi
 BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /.env@')"
 BUILD_OPTS="-c /config"
 
+# dpkg-reconfigure qemu-user-static && 
+
 ${DOCKER} build -t pi-gen "${DIR}"
 if [ "${CONTAINER_EXISTS}" == "" ]; then
 	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}' SIGINT SIGTERM
-	time ${DOCKER} run --name "${CONTAINER_NAME}" --privileged \
+	${DOCKER} run --name "${CONTAINER_NAME}" --privileged \
 		--volume "${CONFIG_FILE}":/config:ro \
 		--volume "$2/$1/status.json":/status.json \
 		-e "GIT_HASH=${GIT_HASH}" \
 		pi-gen \
-		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static && sh ./build.sh ${BUILD_OPTS} &&
-	rsync -av work/*/build.log deploy/" &
+		bash -e -o pipefail -c "./build.sh ${BUILD_OPTS} && rsync -av work/*/build.log deploy/" &
 	wait "$!"
 fi
 echo "copying results from deploy/"
