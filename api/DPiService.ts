@@ -8,6 +8,7 @@ import { spawn, execSync } from "child_process";
 import { Logger, ILogObject } from 'tslog';
 import { Log } from './Logger';
 import { rejects } from 'assert';
+import { DCDError } from '@datacentricdesign/types';
 
 export class DPiService {
 
@@ -17,19 +18,19 @@ export class DPiService {
      * @param {strind} dpiId
      * returns DPi
      **/
-    async getOneDPiImage(dpiId: string, download: boolean): Promise<string> {
+    async getOneDPiImage(dpiId: string, download: boolean): Promise<any> {
         // TODO: read and return file in ./dpi/<dpiId>
 
-        const path = config.hostDataFolder + '/images/' + dpiId + '/status.txt';
-        try{
-            const data = fs.readFileSync(path, {encoding:'utf8', flag:'r'})
-            return Promise.resolve(data);
-        } catch(error) {
+        const path = config.hostDataFolder + '/images/' + dpiId + '/status.json';
+        try {
+            const data = fs.readFileSync(path, { encoding: 'utf8', flag: 'r' })
+            return Promise.resolve(JSON.parse(data));
+        } catch (error) {
             return Promise.reject(error);
         }
-        
+
         // TODO: if download and image ready, send file
-        
+
     }
 
     /**
@@ -44,9 +45,9 @@ export class DPiService {
             const dockerRm = execSync("docker rm pigen_" + dpiId + "_work");
             Log.debug(dockerRm.toString())
             return Promise.resolve();
-        } catch(error) {
+        } catch (error) {
             return Promise.reject(error);
-        } finally{
+        } finally {
             this.deleteDPiImage(dpiId)
         }
     }
@@ -73,9 +74,9 @@ export class DPiService {
      * @param {DTODPi} dtoDPi
      * returns DPi
      **/
-    async generateNewDPi(dtoDPi: DTODPi): Promise<DPi> {
+    async generateNewDPi(dtoDPi: any): Promise<DPi> {
         const dpi: DPi = {
-            id: dtoDPi.thingId.replace('dcd:things:', ''),
+            id: dtoDPi.id.replace('dcd:things:', ''),
             email: dtoDPi.email,
             created_at: new Date().getTime(),
             status: 'INIT',
@@ -90,12 +91,12 @@ export class DPiService {
             first_user_pass: dtoDPi.first_user_pass
         }
 
-        if (dtoDPi.home_ESSID && dtoDPi.home_password && dtoDPi.wpa_password) {
+        if (dtoDPi.home_ESSID && dtoDPi.home_password) {
             dpi.home_ESSID = dtoDPi.home_ESSID,
                 dpi.home_password = dtoDPi.home_password
         }
 
-        if (dtoDPi.wpa_ESSID && dtoDPi.wpa_password && dtoDPi.wpa_password) {
+        if (dtoDPi.wpa_ESSID && dtoDPi.wpa_password && dtoDPi.wpa_country) {
             dpi.wpa_ESSID = dtoDPi.wpa_ESSID,
                 dpi.wpa_country = dtoDPi.wpa_country,
                 dpi.wpa_password = dtoDPi.wpa_password
@@ -144,22 +145,37 @@ function bootstrapNewContainer(id: string) {
     const ls = spawn("./builder/build-docker.sh", [id, config.hostDataFolder + '/images']);
 
     ls.stdout.on("data", data => {
-        log.debug(`stdout: ${data}`);
+        try {
+            log.debug(`stdout: ${data}`);
+        } catch (error) {
+
+        }
     });
 
     ls.stderr.on("data", data => {
-        log.error(`stderr: ${data}`);
+        try {
+            log.error(`stderr: ${data}`);
+        } catch (error) {
+            Log.error(`stderr: ${data}`);
+        }
     });
 
     ls.on('error', (error) => {
-        log.error(`${error.message}`);
+        Log.error(`${error.message}`);
     });
 
     ls.on("close", code => {
         if (code === 0) {
             Log.info(`PiGen for '${id}' exited with code ${code}.`)
         } else {
-            Log.error(`PiGen for '${id}' exited with code ${code}.`)
+            try {
+                fs.writeFileSync(config.hostDataFolder + '/images/' + id + '/status.json',
+                JSON.stringify(new DCDError(code, "Generation terminated unexpectedly with code " + code + ".")) + "\n");
+            } catch(error) {
+
+            } finally {
+                Log.error(`PiGen for '${id}' exited with code ${code}.`)
+            }
         }
     });
 }

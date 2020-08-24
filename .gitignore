@@ -5,5 +5,7 @@ deploy/
 node_modules
 
 images
-
 logs
+apt-cacher-ng
+
+data

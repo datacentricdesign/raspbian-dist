@@ -8,7 +8,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 REQ_DIR="$( mkdir -p $2/$1 && echo "$2/$1" )"
 
 # create status file 
-touch $2/$1/status.txt && echo "Starting Image Generation" > $2/$1/status.txt
+touch $2/$1/status.json && echo "{\"code\": 1, \"message\":\"Starting ${IMG_NAME} generation for 'dcd:things:$1'.\"}" > $2/$1/status.json
 
 
 BUILD_OPTS="$*"
@@ -96,6 +96,7 @@ if [ "${CONTAINER_EXISTS}" != "" ]; then
 		--volume ${CONFIG_FILE}:/config:ro \
 		-e "GIT_HASH=${GIT_HASH}" \
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
+		--volume "$2/$1/status.json":/status.json \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
@@ -105,6 +106,7 @@ else
 	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}' SIGINT SIGTERM
 	time ${DOCKER} run --name "${CONTAINER_NAME}" --privileged \
 		--volume "${CONFIG_FILE}":/config:ro \
+		--volume "$2/$1/status.json":/status.json \
 		-e "GIT_HASH=${GIT_HASH}" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
@@ -121,5 +123,4 @@ if [ "${PRESERVE_CONTAINER}" != "1" ]; then
 	${DOCKER} rm -v "${CONTAINER_NAME}"
 fi
 
-
-echo "Done! Your image(s) should be in $2/$1/" > $2/$1/status.txt
+echo "{\"code\": 0, \"message\":\"The ${IMG_NAME} for 'dcd:things:$1' is ready.\"}" > $2/$1/status.json

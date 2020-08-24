@@ -44,23 +44,4 @@ mkdir(config.hostDataFolder + '/images', function(error: any) {
   app.listen(config.http.port, () => {
     Log.info("Server started on port " + config.http.port + "!");
   });
-  // test()
 })
-
-// function test() {
-//   const data: DTODPi = {
-//     thingId: "dcd:things:test",
-//     target_hostname: "my-pi",
-//     email: "lab@datacentricdesign.org",
-//     first_user_name: "jacky",
-//     first_user_pass: "testtest",
-//     home_ESSID: 'TELE2-F19630_2.4G',
-//     home_password: '7AE697F4739D',
-//     wpa_ESSID: 'eduroam',
-//     wpa_password: '0332KJ-=BoBo',
-//     wpa_country: 'NL'
-//   }
-  
-//   const dpiService = new DPiService()
-//   dpiService.generateNewDPi(data)
-// }

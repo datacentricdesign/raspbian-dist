@@ -2,6 +2,8 @@ FROM debian:buster
 
 ENV DEBIAN_FRONTEND noninteractive
 
+# RUN  echo 'Acquire::http { Proxy "http://apt-cacher-ng:3142"; };' >> /etc/apt/apt.conf.d/01proxy
+
 RUN apt-get -y update && \
     apt-get -y install --no-install-recommends \
         git vim parted \
