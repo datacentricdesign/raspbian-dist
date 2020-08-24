@@ -21,7 +21,9 @@ RUN echo "# # # # DockerFile #####"
 RUN ls -lah
 RUN echo "# # # # #####"
 
-RUN sudo dpkg-reconfigure qemu-user-static
+RUN dpkg-reconfigure qemu-user-static
+
+RUN echo "# # # # ##### DONE WITH DPKG QEMU"
 
 RUN modprobe binfmt_misc
 
