@@ -21,6 +21,8 @@ RUN echo "# # # # DockerFile #####"
 RUN ls -lah
 RUN echo "# # # # #####"
 
-RUN dpkg-reconfigure qemu-user-static
+RUN sudo dpkg-reconfigure qemu-user-static
+
+RUN modprobe binfmt_misc
 
 VOLUME [ "/pi-gen/work", "/pi-gen/deploy"]
