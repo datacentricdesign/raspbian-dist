@@ -101,7 +101,7 @@ if [ "${CONTAINER_EXISTS}" != "" ]; then
 		--volume "$2/$1/status.json":/status.json \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
-	cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
+	cd /pi-gen && echo $(ls) && ./build.sh ${BUILD_OPTS} &&
 	rsync -av work/*/build.log deploy/" &
 	wait "$!"
 else
@@ -112,7 +112,7 @@ else
 		-e "GIT_HASH=${GIT_HASH}" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
-	cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
+	cd /pi-gen && echo $(ls) && ./build.sh ${BUILD_OPTS} &&
 	rsync -av work/*/build.log deploy/" &
 	wait "$!"
 fi

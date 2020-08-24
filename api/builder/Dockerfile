@@ -14,7 +14,4 @@ RUN apt-get -y update && \
 
 COPY . /pi-gen/
 
-RUN echo "# # # # # list file pi-gen"
-RUN echo $(ls /pi-gen)
-
 VOLUME [ "/pi-gen/work", "/pi-gen/deploy"]
