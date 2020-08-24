@@ -99,7 +99,7 @@ if [ "${CONTAINER_EXISTS}" == "" ]; then
 		--volume "$2/$1/status.json":/status.json \
 		-e "GIT_HASH=${GIT_HASH}" \
 		pi-gen \
-		bash -e -o pipefail -c "./build.sh ${BUILD_OPTS} && rsync -av work/*/build.log deploy/" &
+		bash -e -o pipefail -c "modprobe binfmt_misc && ./build.sh ${BUILD_OPTS} && rsync -av work/*/build.log deploy/" &
 	wait "$!"
 fi
 echo "copying results from deploy/"
