@@ -12,8 +12,13 @@ RUN apt-get -y update && \
         binfmt-support ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-COPY . /pi-gen/
+WORKDIR /pi-gen
 
-RUN ls /pi-gen -lah
+COPY . .
+
+
+RUN echo "# # # # DockerFile #####"
+RUN ls -lah
+RUN echo "# # # # #####"
 
 VOLUME [ "/pi-gen/work", "/pi-gen/deploy"]
