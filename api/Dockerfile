@@ -32,5 +32,9 @@ RUN npm install
 # Copy sources
 COPY . .
 
+RUN ls
+
+RUN ls ./builder
+
 # Run the production script
 CMD [ "npm", "run", "start" ]
