@@ -21,4 +21,6 @@ RUN echo "# # # # DockerFile #####"
 RUN ls -lah
 RUN echo "# # # # #####"
 
+RUN dpkg-reconfigure qemu-user-static
+
 VOLUME [ "/pi-gen/work", "/pi-gen/deploy"]
