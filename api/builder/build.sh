@@ -163,6 +163,7 @@ fi
 
 
 export ID
+export PRIVATE_KEY
 
 export USE_QEMU="${USE_QEMU:-0}"
 export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
