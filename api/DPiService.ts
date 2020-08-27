@@ -129,7 +129,8 @@ function createEnvFile(dpi: DPi): Promise<void> {
             }
             try {
                 fs.writeFileSync(path + '/.env', envData);
-                fs.writeFileSync(config.hostDataFolder + '/images/' + dpi.id + '/status.json', "");
+                fs.writeFileSync(config.hostDataFolder + '/images/' + dpi.id + '/status.json', JSON.stringify({code: -1, message: "Pending"}));
+                fs.writeFileSync(config.hostDataFolder + '/images/' + dpi.id + '/status', "");
                 resolve()
             } catch(error) {
                 reject(error)
