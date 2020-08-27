@@ -9,7 +9,7 @@ REQ_DIR="$( mkdir -p $2/$1 && echo "$2/$1" )"
 
 # create status file 
 touch $2/$1/status.json && echo "{\"code\": 1, \"message\":\"Starting ${IMG_NAME} generation for 'dcd:things:$1'.\"}" > $2/$1/status.json
-
+echo "Being built" > $2/$1/status
 
 BUILD_OPTS="$*"
 
@@ -24,21 +24,24 @@ if ! ${DOCKER} ps >/dev/null; then
 	exit 1
 fi
 
-CONFIG_FILE=""
-if [ -f "${REQ_DIR}/.env" ]; then
-	CONFIG_FILE="${REQ_DIR}/.env"
-fi
+CONFIG_FILE=$2/$1/.env
 
-while getopts "c:" flag
-do
-	case "${flag}" in
-		c)
-			CONFIG_FILE="${OPTARG}"
-			;;
-		*)
-			;;
-	esac
-done
+# if [ -f "${REQ_DIR}/.env" ]; then
+# 	CONFIG_FILE="${REQ_DIR}/.env"
+# fi
+
+# while getopts "c:" flag
+# do
+# 	case "${flag}" in
+# 		c)
+# 			CONFIG_FILE="${OPTARG}"
+# 			;;
+# 		*)
+# 			;;
+# 	esac
+# done
+
+# $CONFIG_FILE = $2/$1/.env
 
 echo "The config file path: $CONFIG_FILE"
 
@@ -114,3 +117,4 @@ if [ "${PRESERVE_CONTAINER}" != "1" ]; then
 fi
 
 echo "{\"code\": 0, \"message\":\"The ${IMG_NAME} for 'dcd:things:$1' is ready.\"}" > $2/$1/status.json
+echo "done" > $2/$1/status

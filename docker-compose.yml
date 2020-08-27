@@ -40,6 +40,17 @@ services:
   #   volumes:
   #   - $HOST_DATA_FOLDER/apt-cacher-ng:/var/cache/apt-cacher-ng
 
+  dpi-builder:
+    build:
+      context: ./builder
+      dockerfile: DockerfileBuilder
+    container_name: dpi-builder
+    environment: 
+      - HOST_DATA_FOLDER=$HOST_DATA_FOLDER
+    volumes:
+      - $HOST_DATA_FOLDER:$HOST_DATA_FOLDER
+      - /var/run/docker.sock:/var/run/docker.sock
+
 networks: 
   default:
       external:

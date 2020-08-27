@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"thingId\": \"dcd:things:test2\",\n    \"target_hostname\": \"my-pi\",\n    \"email\": \"lab@datacentricdesign.org\",\n    \"first_user_name\": \"jacky\",\n    \"first_user_pass\": \"testtest\",\n    \"home_ESSID\": \"TELE2-F19630_2.4G\",\n    \"home_password\": \"7AE697F4739D\",\n    \"wpa_ESSID\": \"eduroam\",\n    \"wpa_password\": \"0332KJ-=BoBo\",\n    \"wpa_country\": \"NL\"\n  }",
+					"raw": "{\n    \"thingId\": \"dcd:things:test2\",\n    \"target_hostname\": \"my-pi\",\n    \"email\": \"lab@datacentricdesign.org\",\n    \"first_user_name\": \"testuser\",\n    \"first_user_pass\": \"testtest\",\n    \"home_ESSID\": \"home-net\",\n    \"home_password\": \"home-pass\",\n    \"wpa_ESSID\": \"eduroam\",\n    \"wpa_password\": \"wpatestpass\",\n    \"wpa_country\": \"NL\"\n  }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -43,7 +43,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"thingId\": \"dcd:things:test2\",\n    \"target_hostname\": \"my-pi\",\n    \"email\": \"lab@datacentricdesign.org\",\n    \"first_user_name\": \"jacky\",\n    \"first_user_pass\": \"testtest\",\n    \"home_ESSID\": \"TELE2-F19630_2.4G\",\n    \"home_password\": \"7AE697F4739D\",\n    \"wpa_ESSID\": \"eduroam\",\n    \"wpa_password\": \"0332KJ-=BoBo\",\n    \"wpa_country\": \"NL\"\n  }",
+					"raw": "{\n    \"thingId\": \"dcd:things:test2\",\n    \"target_hostname\": \"my-pi\",\n    \"email\": \"lab@datacentricdesign.org\",\n    \"first_user_name\": \"testuser\",\n    \"first_user_pass\": \"testtest\",\n    \"home_ESSID\": \"home-net\",\n    \"home_password\": \"home-pass\",\n    \"wpa_ESSID\": \"eduroam\",\n    \"wpa_password\": \"wpatestpass\",\n    \"wpa_country\": \"NL\"\n  }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -105,7 +105,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"thingId\": \"dcd:things:test2\",\n    \"target_hostname\": \"my-pi\",\n    \"email\": \"lab@datacentricdesign.org\",\n    \"first_user_name\": \"jacky\",\n    \"first_user_pass\": \"testtest\",\n    \"home_ESSID\": \"TELE2-F19630_2.4G\",\n    \"home_password\": \"7AE697F4739D\",\n    \"wpa_ESSID\": \"eduroam\",\n    \"wpa_password\": \"0332KJ-=BoBo\",\n    \"wpa_country\": \"NL\"\n  }",
+					"raw": "{\n    \"thingId\": \"dcd:things:test2\",\n    \"target_hostname\": \"my-pi\",\n    \"email\": \"lab@datacentricdesign.org\",\n    \"first_user_name\": \"testuser\",\n    \"first_user_pass\": \"testtest\",\n    \"home_ESSID\": \"home-net\",\n    \"home_password\": \"home-pass\",\n    \"wpa_ESSID\": \"eduroam\",\n    \"wpa_password\": \"wpatestpass\",\n    \"wpa_country\": \"NL\"\n  }",
 					"options": {
 						"raw": {
 							"language": "json"

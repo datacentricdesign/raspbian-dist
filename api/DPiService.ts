@@ -24,7 +24,11 @@ export class DPiService {
         const path = config.hostDataFolder + '/images/' + dpiId + '/status.json';
         try {
             const data = fs.readFileSync(path, { encoding: 'utf8', flag: 'r' })
-            return Promise.resolve(JSON.parse(data));
+            if (data === "") {
+                return Promise.resolve({code: -1, message: "Pending..."});
+            } else {
+                return Promise.resolve(JSON.parse(data));
+            }
         } catch (error) {
             return Promise.reject(error);
         }
@@ -75,11 +79,9 @@ export class DPiService {
      * returns DPi
      **/
     async generateNewDPi(dtoDPi: any): Promise<DPi> {
-        const dpi: DPi = {
+        const dpi: any = {
             id: dtoDPi.id.replace('dcd:things:', ''),
-            email: dtoDPi.email,
-            created_at: new Date().getTime(),
-            status: 'INIT',
+            private_key: dtoDPi.private_key,
             img_name: dtoDPi.img_name !== undefined ? dtoDPi.img_name : config.dpi.img_name,
             keyboard_layout: dtoDPi.keyboard_layout !== undefined ? dtoDPi.keyboard_layout : config.dpi.keyboard_layout,
             keyboard_keymap: dtoDPi.keyboard_keymap !== undefined ? dtoDPi.keyboard_keymap : config.dpi.keyboard_keymap,
@@ -105,7 +107,7 @@ export class DPiService {
         // write updates into ./dpi/<dpiId>/status.json
         try {
             await createEnvFile(dpi)
-            bootstrapNewContainer(dpi.id)
+            // bootstrapNewContainer(dpi.id)
             return Promise.resolve(dpi);
         } catch (error) {
             return Promise.reject(error);
@@ -125,13 +127,13 @@ function createEnvFile(dpi: DPi): Promise<void> {
             for (let key in dpi) {
                 envData += key.toUpperCase() + '="' + dpi[key] + '"\n'
             }
-            fs.writeFile(path + '/.env', envData, function (error: any) {
-                if (error) {
-                    return reject(error);
-                }
-                Log.debug("Status file created for " + dpi.id + "!");
-                return resolve()
-            });
+            try {
+                fs.writeFileSync(path + '/.env', envData);
+                fs.writeFileSync(config.hostDataFolder + '/images/' + dpi.id + '/status.json', "");
+                resolve()
+            } catch(error) {
+                reject(error)
+            }
         })
     })
 }
