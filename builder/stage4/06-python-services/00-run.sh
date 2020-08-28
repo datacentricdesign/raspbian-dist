@@ -13,20 +13,19 @@ EOF
 install -v -m 644 files/.env	       "${ROOTFS_DIR}/etc/systemd/system/service_scripts/python/"	
 
 # create private key 
-touch files/${ID}.private.pem
+touch files/dcd:things:${ID}.private.pem
 
-cat > files/${ID}.private.pem << EOF
+cat > files/dcd:things:${ID}.private.pem << EOF
 ${PRIVATE_KEY}
 EOF
 
 # place private key 
 install -v -d                          "${ROOTFS_DIR}/etc/ssl/certs"
-install -v -m 644 files/${ID}.private.pem	       "${ROOTFS_DIR}/etc/ssl/certs/"
+install -v -m 644 files/dcd:things:${ID}.private.pem	       "${ROOTFS_DIR}/etc/ssl/certs/"
 
 # run chown
-on_chroot << EOF
-chown root:root /etc/ssl/certs/${ID.private.pem}
-EOF
+chown root:root   "${ROOTFS_DIR}/etc/ssl/certs/dcd:things:${ID}.private.pem"
+
 
 
 # place ip service
