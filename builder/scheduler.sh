@@ -60,7 +60,7 @@ do
 					then 
 						 echo "execute ${line}/status";
 						 # TO DO ADD PROPER SCRIPT AND CONFIG LOCATION
-						 bash /build-docker.sh $(basename "$line") $HOST_DATA_FOLDER/images/ > $line/build.log & # run in background
+						 bash /build-docker.sh $(basename "$line") $HOST_DATA_FOLDER/images > $line/build.log & # run in background
 						 break
 			  	fi
 			  	#echo $line
