@@ -9,7 +9,7 @@ load_dotenv()
 THING_ID = os.environ['THING_ID']
 
 # Instantiate a thing with its credential
-my_thing = Thing(thing_id=THING_ID, private_key_path="/etc/ssl/certs/" + THING_ID + "private.pem")
+my_thing = Thing(thing_id=THING_ID, private_key_path="/etc/ssl/certs/" + THING_ID + ".private.pem")
 
 # Find or create a property to store processor usage
 my_property_cpu = my_thing.find_or_create_property("Processor Usage", "CPU")
