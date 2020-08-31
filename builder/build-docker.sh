@@ -116,5 +116,8 @@ if [ "${PRESERVE_CONTAINER}" != "1" ]; then
 	${DOCKER} rm -v "${CONTAINER_NAME}"
 fi
 
+# Remove all unused local volumes
+${DOCKER} volume prune -f
+
 echo "{\"code\": 0, \"message\":\"The ${IMG_NAME} for 'dcd:things:$1' is ready.\"}" > $2/$1/status.json
 echo "done" > $2/$1/status
