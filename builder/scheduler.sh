@@ -51,7 +51,7 @@ do
 		if [ $RUNNING_BUILDS -lt $MAX_RUNNING_BUILDS ]
 		then
 		#   echo "Can run another script"
-		  find $SEARCH_LOCATION  -type d  |  while read -r line ; do
+		  find $SEARCH_LOCATION  -type d -maxdepth 0  |  while read -r line ; do
 				# for each directory  
 			  	# check if status is empty
 		 
