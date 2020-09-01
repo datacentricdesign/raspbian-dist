@@ -6,7 +6,7 @@
 
 MAX_RUNNING_BUILDS=2
 
-SEARCH_LOCATION=$HOST_DATA_FOLDER/images/*
+SEARCH_LOCATION=$HOST_DATA_FOLDER/images/*/
 
 # simple process scheduler with limiter arguments 
 
