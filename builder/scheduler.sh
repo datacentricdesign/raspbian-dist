@@ -6,7 +6,7 @@
 
 MAX_RUNNING_BUILDS=2
 
-SEARCH_LOCATION=$HOST_DATA_FOLDER/images/*/
+SEARCH_LOCATION=$HOST_DATA_FOLDER/images/*
 
 # simple process scheduler with limiter arguments 
 
@@ -18,7 +18,7 @@ do
 
 #   echo "Press <CTRL+C> to exit."
 
-	  find $SEARCH_LOCATION  -type d | ( while read -r line ; do
+	  find $SEARCH_LOCATION  -type d -maxdepth 0 | ( while read -r line ; do
 		# for each directory  
 	  	# check if status is empty
 
