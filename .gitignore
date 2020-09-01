@@ -1,4 +1,11 @@
 work/
-config
+.env
 deploy/
 
+node_modules
+
+images
+logs
+apt-cacher-ng
+
+data

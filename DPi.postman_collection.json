@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "b101fa59-899d-49ec-b451-7e6de97e6b4c",
+		"name": "DPi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create new DPi",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"thingId\": \"dcd:things:test2\",\n    \"target_hostname\": \"my-pi\",\n    \"email\": \"lab@datacentricdesign.org\",\n    \"first_user_name\": \"testuser\",\n    \"first_user_pass\": \"testtest\",\n    \"home_ESSID\": \"home-net\",\n    \"home_password\": \"home-pass\",\n    \"wpa_ESSID\": \"eduroam\",\n    \"wpa_password\": \"wpatestpass\",\n    \"wpa_country\": \"NL\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/dpi",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"dpi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get DPi",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"thingId\": \"dcd:things:test2\",\n    \"target_hostname\": \"my-pi\",\n    \"email\": \"lab@datacentricdesign.org\",\n    \"first_user_name\": \"testuser\",\n    \"first_user_pass\": \"testtest\",\n    \"home_ESSID\": \"home-net\",\n    \"home_password\": \"home-pass\",\n    \"wpa_ESSID\": \"eduroam\",\n    \"wpa_password\": \"wpatestpass\",\n    \"wpa_country\": \"NL\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/dpi/test2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"dpi",
+						"test2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel DPi generation",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"thingId\": \"dcd:things:test2\",\n    \"target_hostname\": \"my-pi\",\n    \"email\": \"lab@datacentricdesign.org\",\n    \"first_user_name\": \"testtest\",\n    \"first_user_pass\": \"testtest\",\n    \"home_ESSID\": \"testtest\",\n    \"home_password\": \"testtest\",\n    \"wpa_ESSID\": \"eduroam\",\n    \"wpa_password\": \"testtest\",\n    \"wpa_country\": \"NL\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/dpi/test/cancel",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"dpi",
+						"test",
+						"cancel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete DPi",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"thingId\": \"dcd:things:test2\",\n    \"target_hostname\": \"my-pi\",\n    \"email\": \"lab@datacentricdesign.org\",\n    \"first_user_name\": \"testuser\",\n    \"first_user_pass\": \"testtest\",\n    \"home_ESSID\": \"home-net\",\n    \"home_password\": \"home-pass\",\n    \"wpa_ESSID\": \"eduroam\",\n    \"wpa_password\": \"wpatestpass\",\n    \"wpa_country\": \"NL\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/dpi/test2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"dpi",
+						"test2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,32 +1,38 @@
 # raspbian-dist
 Custom raspbian distribution, integrated with dcd-sdk, running custom services. 
 
+## Get started with Docker Compose
+
+1. Create and configure ".env" file like so:
+
+```
+HOST_DATA_FOLDER=/absolute/path/to/data/on/host
+
+NODE_ENV=development
+
+# http setup
+HTTP_HOST=localhost
+HTTP_PORT=8081
+HTTP_SECURED=false
+HTTP_BASE_URL=/dpi
+
+# default value if not provided in the request body
+IMG_NAME=DCDbian
+KEYBOARD_LAYOUT="English (US)"
+KEYBOARD_KEYMAP="us"
+TIMEZONE_DEFAULT=Europe/Amsterdam
+ENABLE_SSH=1
+LOCALE_DEFAULT="en_US.UTF-8"
+```
+2. run docker-compose up
+
+3. Postman REST API example in the DPI.postman_collection.json
+
 ## Use instructions
 * Run from Debian 10 buster / with docker
 * Make sure to install dependencies mentioned in the pi-gen repo.
 * make sure to install pip `sudo apt-get install python3-pip`
 * More details for building in [pi-gen repo](https://github.com/RPi-Distro/pi-gen)
-
-### Build Instructions ( Docker)
-1. Create and configure "config" file like so:
-```
-IMG_NAME=DCDbian
-TARGET_HOSTNAME="pi-netid"
-KEYBOARD_LAYOUT="English (US)"
-TIMEZONE_DEFAULT=Europe/Amsterdam
-FIRST_USER_NAME="netid"
-FIRST_USER_PASS="netid_pass"
-ENABLE_SSH=1
-HOME_ESSID="home_net_name"
-HOME_PASSWORD="home_net_pass"
-WPA_ESSID=eduroam
-WPA_PASSWORD="eduroam_pass"
-WPA_COUNTRY=NL
-KEYBOARD_KEYMAP="us"
-LOCALE_DEFAULT="en_US.UTF-8"
-
-```
-2. run ./build-docker.sh
 
 ## System Configurations
 * System comes with DCD python libraries preinstalled
