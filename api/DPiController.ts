@@ -21,7 +21,7 @@ export class DPiController {
         try {
             const status = await DPiController.dpiService.getOneDPiImage(dpiId, download)
             if (download && status.code === 0) {
-                const path = config.hostDataFolder + '/images/' + dpiId + '/deploy/image_' + req.params.dpiId + '_' + config.dpi.img_name + '.zip';
+                const path = config.hostDataFolder + '/images/' + dpiId + '/deploy/image_' + req.params.dpiId + '.zip';
                 
                 return res.download((path), function (error) {
                     if (error) {
