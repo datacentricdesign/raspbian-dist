@@ -7,6 +7,7 @@ run_sub_stage()
 	for i in {00..99}; do
 		if [ -f "${i}-debconf" ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-debconf"
+	
 			on_chroot << EOF
 debconf-set-selections <<SELEOF
 $(cat "${i}-debconf")
@@ -125,10 +126,18 @@ fi
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export BASE_DIR
 
-if [ -f config ]; then
+
+echo "Base dir: ${BASE_DIR}"
+echo "$(cat /config)"
+
+
+
+if [ -f .env ]; then
 	# shellcheck disable=SC1091
-	source config
+	source .env
 fi
+
+
 
 while getopts "c:" flag
 do
@@ -143,6 +152,7 @@ do
 	esac
 done
 
+
 export PI_GEN=${PI_GEN:-pi-gen}
 export PI_GEN_REPO=${PI_GEN_REPO:-https://github.com/RPi-Distro/pi-gen}
 
@@ -151,13 +161,18 @@ if [ -z "${IMG_NAME}" ]; then
 	exit 1
 fi
 
+
+export ID
+export PRIVATE_KEY
+
 export USE_QEMU="${USE_QEMU:-0}"
 export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
-export IMG_FILENAME="${IMG_FILENAME:-"${IMG_DATE}-${IMG_NAME}"}"
-export ZIP_FILENAME="${ZIP_FILENAME:-"image_${IMG_DATE}-${IMG_NAME}"}"
+export IMG_FILENAME="${IMG_FILENAME:-"${ID}"}"
+export ZIP_FILENAME="${ZIP_FILENAME:-"image_${ID}"}"
 
 export SCRIPT_DIR="${BASE_DIR}/scripts"
-export WORK_DIR="${WORK_DIR:-"${BASE_DIR}/work/${IMG_DATE}-${IMG_NAME}"}"
+export WORK_DIR="${WORK_DIR:-"${BASE_DIR}/work/${ID}"}"
+
 export DEPLOY_DIR=${DEPLOY_DIR:-"${BASE_DIR}/deploy"}
 export DEPLOY_ZIP="${DEPLOY_ZIP:-1}"
 export LOG_FILE="${WORK_DIR}/build.log"
@@ -166,6 +181,7 @@ export TARGET_HOSTNAME=${TARGET_HOSTNAME:-raspberrypi}
 
 export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
 export FIRST_USER_PASS=${FIRST_USER_PASS:-raspberry}
+
 export RELEASE=${RELEASE:-buster}
 export WPA_ESSID
 export WPA_PASSWORD
@@ -236,9 +252,19 @@ log "Begin ${BASE_DIR}"
 
 STAGE_LIST=${STAGE_LIST:-${BASE_DIR}/stage*}
 
+COUNT=0
 for STAGE_DIR in $STAGE_LIST; do
+	((COUNT=$COUNT+1))
+done
+
+STARTED_AT=$(date +%s)
+
+SUPER_COUNT=1
+for STAGE_DIR in $STAGE_LIST; do
+	echo "{\"code\": 1, \"started_at\": $STARTED_AT, \"updated_at\": $(date +%s), \"stage\": $SUPER_COUNT, \"stages\": ${COUNT}, \"message\":\"${IMG_NAME} generation for 'dcd:things:${ID}' Stage ${SUPER_COUNT}/${COUNT}.\"}" > /status.json
 	STAGE_DIR=$(realpath "${STAGE_DIR}")
 	run_stage
+	((SUPER_COUNT=$SUPER_COUNT+1))
 done
 
 CLEAN=1
