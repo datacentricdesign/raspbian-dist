@@ -244,8 +244,6 @@ if [[ -n "${WPA_PASSWORD}" && ${#WPA_PASSWORD} -lt 8 || ${#WPA_PASSWORD} -gt 63 
 	exit 1
 fi
 
-echo ${HOME_PASSWORD}
-echo ${HOME_ESSID}
 
 mkdir -p "${WORK_DIR}"
 log "Begin ${BASE_DIR}"
