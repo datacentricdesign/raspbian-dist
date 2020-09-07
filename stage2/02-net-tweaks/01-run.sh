@@ -40,10 +40,6 @@ network={
        
 }
 
-network={
-       ssid="${WPA_ESSID}"
-       key_mgmt=NONE
-}
 
 EOL
 
@@ -53,7 +49,7 @@ cat >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf" << EOL
 
 network={
        ssid="${HOME_ESSID}"
-       password=hash:${HASH}
+       password="${HOME_PASSWORD}" 
 }
 
 
@@ -64,8 +60,8 @@ fi
 
 # Disable wifi on 5GHz models
 mkdir -p "${ROOTFS_DIR}/var/lib/systemd/rfkill/"
-echo 1 > "${ROOTFS_DIR}/var/lib/systemd/rfkill/platform-3f300000.mmcnr:wlan"
-echo 1 > "${ROOTFS_DIR}/var/lib/systemd/rfkill/platform-fe300000.mmcnr:wlan"
+#echo 1 > "${ROOTFS_DIR}/var/lib/systemd/rfkill/platform-3f300000.mmcnr:wlan"
+#echo 1 > "${ROOTFS_DIR}/var/lib/systemd/rfkill/platform-fe300000.mmcnr:wlan"
 
 
 # Activate all services 
