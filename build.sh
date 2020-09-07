@@ -151,6 +151,9 @@ if [ -z "${IMG_NAME}" ]; then
 	exit 1
 fi
 
+
+export ID
+export PRIVATE_KEY
 export USE_QEMU="${USE_QEMU:-0}"
 export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
 export IMG_FILENAME="${IMG_FILENAME:-"${IMG_DATE}-${IMG_NAME}"}"
@@ -228,8 +231,6 @@ if [[ -n "${WPA_PASSWORD}" && ${#WPA_PASSWORD} -lt 8 || ${#WPA_PASSWORD} -gt 63 
 	exit 1
 fi
 
-echo ${HOME_PASSWORD}
-echo ${HOME_ESSID}
 
 mkdir -p "${WORK_DIR}"
 log "Begin ${BASE_DIR}"
