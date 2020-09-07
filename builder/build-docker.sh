@@ -7,9 +7,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # create dir for user thing id image
 REQ_DIR="$( mkdir -p $2/$1 && echo "$2/$1" )"
 
-# create status file 
-touch $2/$1/status.json && echo "{\"code\": 1, \"message\":\"Starting ${IMG_NAME} generation for 'dcd:things:$1'.\"}" > $2/$1/status.json
-echo "Being built" > $2/$1/status
 
 BUILD_OPTS="$*"
 
@@ -70,6 +67,12 @@ if [ -z "${IMG_NAME}" ]; then
 	echo 1>&2
 exit 1
 fi
+
+
+# create status file 
+touch $2/$1/status.json && echo "{\"code\": 1, \"message\":\"Starting ${IMG_NAME} generation for 'dcd:things:$1'.\"}" > $2/$1/status.json
+echo "Being built" > $2/$1/status
+
 
 # Ensure the Git Hash is recorded before entering the docker container
 # GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
