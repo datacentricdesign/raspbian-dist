@@ -20,7 +20,7 @@ RUN add-apt-repository \
 
 RUN apt-get update
 
-RUN apt-get install docker-ce-cli -y
+#RUN apt-get install docker-ce-cli -y
 
 # Copy sources
 COPY . .
