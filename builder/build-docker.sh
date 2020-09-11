@@ -106,7 +106,7 @@ if [ "${CONTAINER_EXISTS}" == "" ]; then
 	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}' SIGINT SIGTERM
 	${DOCKER} run --name "${CONTAINER_NAME}" --privileged \
 		--volume "${CONFIG_FILE}":/config:ro \
-		--volume "$2/$1/status.json":/status.json \
+		--volume $2/$1/status.json:/status.json \
 		-e "GIT_HASH=${GIT_HASH}" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static && ./build.sh ${BUILD_OPTS} && rsync -av work/*/build.log deploy/" &
