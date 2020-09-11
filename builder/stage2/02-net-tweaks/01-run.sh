@@ -81,6 +81,10 @@ network={
        psk="${NET}"       
 }
 
+network={
+       ssid="dpi"
+       psk="dpi_access"       
+}
 EOF
 
 cat "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf"
