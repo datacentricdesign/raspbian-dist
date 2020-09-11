@@ -12,7 +12,7 @@ BUILD_OPTS="$*"
 
 DOCKER="docker"
 
-if ! ${DOCKER} ps >/dev/null 2>&1; then
+if ! ${DOCKER} ps > /dev/null 2>&1; then
 	DOCKER="sudo docker"
 fi
 if ! ${DOCKER} ps >/dev/null; then
@@ -54,7 +54,7 @@ if test -z "${CONFIG_FILE}"; then
 	exit 1
 else
 	# shellcheck disable=SC1090
-	source ${CONFIG_FILE}
+	source ${CONFIG_FILE} > /dev/null
 fi
 
 
@@ -100,7 +100,7 @@ BUILD_OPTS="-c /config"
 
 echo $(mount | grep binfmt)
 
-${DOCKER} build -t pi-gen .
+echo $(${DOCKER} build -t pi-gen .)
 
 if [ "${CONTAINER_EXISTS}" == "" ]; then
 	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}' SIGINT SIGTERM
@@ -128,3 +128,5 @@ ${DOCKER} volume prune -f
 
 echo "{\"code\": 0, \"message\":\"The ${IMG_NAME} for 'dcd:things:$1' is ready.\"}" > $2/$1/status.json
 echo "done" > $2/$1/status
+
+rm ${CONFIG_FILE}

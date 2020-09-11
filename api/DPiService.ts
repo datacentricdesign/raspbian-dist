@@ -25,7 +25,7 @@ export class DPiService {
         try {
             const data = fs.readFileSync(path, { encoding: 'utf8', flag: 'r' })
             if (data === "") {
-                return Promise.resolve({code: -1, message: "Pending..."});
+                return Promise.resolve({ code: -1, message: "Pending..." });
             } else {
                 return Promise.resolve(JSON.parse(data));
             }
@@ -93,15 +93,21 @@ export class DPiService {
             first_user_pass: dtoDPi.first_user_password
         }
 
+
+        // eduroam
+
+
         if (dtoDPi.home_ESSID && dtoDPi.home_password) {
-            dpi.home_ESSID = dtoDPi.home_ESSID,
-                dpi.home_password = dtoDPi.home_password
+            const encryptHome = execSync("$(wpa_passphrase " + dtoDPi.home_ESSID + " " + dtoDPi.home_password + " | sed -n '/#psk/!p' |  awk '/psk=/ {print $s}')");
+            dpi.home_ESSID = dtoDPi.home_ESSID
+            dpi.home_password = encryptHome.toString().trim().replace("psk=","")
         }
 
         if (dtoDPi.wpa_ESSID && dtoDPi.wpa_password && dtoDPi.wpa_country) {
-            dpi.wpa_ESSID = dtoDPi.wpa_ESSID,
-                dpi.wpa_country = dtoDPi.wpa_country,
-                dpi.wpa_password = dtoDPi.wpa_password
+            const encryptPEAP = execSync("echo -n " + dtoDPi.wpa_password + " | iconv -t UTF-16LE | openssl md4 -binary | xxd -p") 
+            dpi.wpa_ESSID = dtoDPi.wpa_ESSID
+            dpi.wpa_country = dtoDPi.wpa_country
+            dpi.wpa_password = encryptPEAP.toString().trim()
         }
 
         // write updates into ./dpi/<dpiId>/status.json
@@ -129,10 +135,10 @@ function createEnvFile(dpi: DPi): Promise<void> {
             }
             try {
                 fs.writeFileSync(path + '/.env', envData);
-                fs.writeFileSync(config.hostDataFolder + '/images/' + dpi.id + '/status.json', JSON.stringify({code: -1, message: "Pending"}));
+                fs.writeFileSync(config.hostDataFolder + '/images/' + dpi.id + '/status.json', JSON.stringify({ code: -1, message: "Pending" }));
                 fs.writeFileSync(config.hostDataFolder + '/images/' + dpi.id + '/status', "");
                 resolve()
-            } catch(error) {
+            } catch (error) {
                 reject(error)
             }
         })
@@ -173,8 +179,8 @@ function bootstrapNewContainer(id: string) {
         } else {
             try {
                 fs.writeFileSync(config.hostDataFolder + '/images/' + id + '/status.json',
-                JSON.stringify(new DCDError(code, "Generation terminated unexpectedly with code " + code + ".")) + "\n");
-            } catch(error) {
+                    JSON.stringify(new DCDError(code, "Generation terminated unexpectedly with code " + code + ".")) + "\n");
+            } catch (error) {
 
             } finally {
                 Log.error(`PiGen for '${id}' exited with code ${code}.`)
