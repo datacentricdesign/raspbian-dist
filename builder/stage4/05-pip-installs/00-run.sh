@@ -9,5 +9,6 @@ pip3 install paho-mqtt
 pip3 install python-dotenv 
 pip3 install pyserial 
 pip3 install requests 
+pip3 install virtualenv
 
 EOF

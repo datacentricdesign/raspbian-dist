@@ -7,9 +7,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # create dir for user thing id image
 REQ_DIR="$( mkdir -p $2/$1 && echo "$2/$1" )"
 
-# create status file 
-touch $2/$1/status.json && echo "{\"code\": 1, \"message\":\"Starting ${IMG_NAME} generation for 'dcd:things:$1'.\"}" > $2/$1/status.json
-echo "Being built" > $2/$1/status
 
 BUILD_OPTS="$*"
 
@@ -25,6 +22,7 @@ if ! ${DOCKER} ps >/dev/null; then
 fi
 
 CONFIG_FILE=$2/$1/.env
+STATUS_FILE=$2/$1/status.json
 
 # if [ -f "${REQ_DIR}/.env" ]; then
 # 	CONFIG_FILE="${REQ_DIR}/.env"
@@ -71,6 +69,12 @@ if [ -z "${IMG_NAME}" ]; then
 exit 1
 fi
 
+
+# create status file 
+touch $2/$1/status.json && echo "{\"code\": 1, \"message\":\"Starting ${IMG_NAME} generation for 'dcd:things:$1'.\"}" > $2/$1/status.json
+echo "Being built" > $2/$1/status
+
+
 # Ensure the Git Hash is recorded before entering the docker container
 # GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
 GIT_HASH="06eb0e4514b75fbc367ec036a15e6d1c10315b49"
@@ -102,7 +106,7 @@ if [ "${CONTAINER_EXISTS}" == "" ]; then
 	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}' SIGINT SIGTERM
 	${DOCKER} run --name "${CONTAINER_NAME}" --privileged \
 		--volume "${CONFIG_FILE}":/config:ro \
-		--volume "$2/$1/status.json":/status.json \
+		--volume "STATUS":/status.json \
 		-e "GIT_HASH=${GIT_HASH}" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static && ./build.sh ${BUILD_OPTS} && rsync -av work/*/build.log deploy/" &
