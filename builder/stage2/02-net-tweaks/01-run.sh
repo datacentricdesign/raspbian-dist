@@ -70,7 +70,7 @@ fi
 #if [ -v HOME_ESSID ] && [ -v HOME_PASSWORD ]; then
 #echo "HOME ESSID SET"
 # home network 
-#NET=$(wpa_passphrase "${HOME_ESSID}" "${HOME_PASSWORD}" | sed -n '/#psk/!p' ) 
+NET=$(wpa_passphrase "${HOME_ESSID}" "${HOME_PASSWORD}" | sed -n '/#psk/!p' | awk '/psk=/ {print $s}' | cut -d "=" -f2 ) 
 
 #echo ${NET}
 
@@ -78,7 +78,7 @@ cat >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf" << EOF
 
 network={
        ssid="${HOME_ESSID}"
-       psk="${HOME_PASSWORD}"       
+       psk="${NET}"       
 }
 
 EOF
