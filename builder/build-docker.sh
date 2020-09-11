@@ -112,7 +112,9 @@ if [ "${CONTAINER_EXISTS}" == "" ]; then
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static && ./build.sh ${BUILD_OPTS} && rsync -av work/*/build.log deploy/" &
 	wait "$!"
 fi
-echo "copying results from deploy/"
+
+echo "Copying results from deploy/"
+
 ${DOCKER} cp "${CONTAINER_NAME}":/pi-gen/deploy $2/$1
 ls -lah $2/$1
 

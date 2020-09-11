@@ -15,18 +15,7 @@ RUN apt-get -y update && \
 
 RUN dpkg-reconfigure qemu-user-static
 
-RUN echo "# # # # ##### DONE WITH DPKG QEMU"
-
 WORKDIR /pi-gen
 COPY . .
-
-RUN echo "# # # # DockerFile #####"
-RUN ls -lah
-RUN echo "# # # # #####"
-
-# RUN ls /lib/modules -lah
-
-RUN echo "# # # # ##### after check lib modules"
-
 
 VOLUME [ "/pi-gen/work", "/pi-gen/deploy"]
