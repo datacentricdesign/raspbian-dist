@@ -78,7 +78,7 @@ cat >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf" << EOF
 
 network={
        ssid="${HOME_ESSID}"
-       psk="${NET}"       
+       psk=${NET}       
 }
 
 network={

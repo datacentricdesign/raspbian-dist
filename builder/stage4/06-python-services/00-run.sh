@@ -29,7 +29,15 @@ install -v -m 644 files/dcd:things:${ID}.private.pem	       "${ROOTFS_DIR}/etc/s
 # run chown
 chown root:root   "${ROOTFS_DIR}/etc/ssl/certs/dcd:things:${ID}.private.pem"
 
+# log folder
+mkdir -p "${ROOTFS_DIR}/var/log/dcd"
+chown root:root "${ROOTFS_DIR}/var/log/dcd"
+chmod 777 -R "${ROOTFS_DIR}/var/log/dcd"
 
+# data folder in tmp
+mkdir -p "${ROOTFS_DIR}/tmp/dcd"
+chown root:root "${ROOTFS_DIR}/tmp/dcd"
+chmod 777 -R "${ROOTFS_DIR}/tmp/dcd"
 
 # place ip service
 install -v -m 644 files/ip.service       "${ROOTFS_DIR}/etc/systemd/system/"
@@ -48,6 +56,7 @@ cat > "${ROOTFS_DIR}/etc/systemd/system/ip.service" << EOF
   Restart=always
   RestartSec=10
   User=${FIRST_USER_NAME}
+  Environment="DIGI_CERT_CA=/tmp/dcd/DigiCertCA.crt"
 
   [Install]
   WantedBy=multi-user.target
