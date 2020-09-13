@@ -8,6 +8,8 @@ install -v -m 755 files/ip.py	       "${ROOTFS_DIR}/etc/systemd/system/service_s
 # update .env file 
 cat > files/.env << EOF
 THING_ID=dcd:things:${ID}
+PRIVATE_KEY_PATH=/etc/ssl/certs/dcd:things:${ID}.private.pem
+LOG_PATH=/var/log/dcd/
 
 EOF
 
