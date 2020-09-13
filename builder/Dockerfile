@@ -3,8 +3,6 @@ FROM i386/debian:buster
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN  echo 'Acquire::http { Proxy "http://apt-cacher-ng:3142"; };' >> /etc/apt/apt.conf.d/01proxy
-
 RUN apt-get -y update && \
     apt-get -y install --no-install-recommends \
         git vim parted \
@@ -13,6 +11,9 @@ RUN apt-get -y update && \
         bsdtar libcap2-bin rsync grep udev xz-utils curl xxd file kmod bc\
         binfmt-support ca-certificates \
     && rm -rf /var/lib/apt/lists/*
+
+# Use the proxy in the container, not at building time because the cacher is not on the same network
+RUN  echo 'Acquire::http { Proxy "http://apt-cacher-ng:3142"; };' >> /etc/apt/apt.conf.d/01proxy
 
 RUN dpkg-reconfigure qemu-user-static
 
