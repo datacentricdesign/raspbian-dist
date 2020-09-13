@@ -13,7 +13,7 @@ RUN apt-get -y update && \
     && rm -rf /var/lib/apt/lists/*
 
 # Use the proxy in the container, not at building time because the cacher is not on the same network
-RUN  echo 'Acquire::http { Proxy "http://apt-cacher-ng:3142"; };' >> /etc/apt/apt.conf.d/01proxy
+# RUN  echo 'Acquire::http { Proxy "http://apt-cacher-ng:3142"; };' >> /etc/apt/apt.conf.d/01proxy
 
 RUN dpkg-reconfigure qemu-user-static
 
