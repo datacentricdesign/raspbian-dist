@@ -34,7 +34,7 @@ services:
   apt-cacher-ng:
     container_name: apt-cacher-ng
     restart: unless-stopped
-    image: sameersbn/apt-cacher-ng:latest
+    image: r1cebank/apt-cacher-ng:latest
     ports:
     - "3142:3142"
     volumes:
