@@ -17,9 +17,9 @@ install -v -m 644 files/eduroam.service       "${ROOTFS_DIR}/etc/systemd/system/
 
 #  install networking basic service
 
-# if [ -v WPA_COUNTRY ]; then
-#  echo "country=${WPA_COUNTRY}" >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf"
-# fi
+if [ -v WPA_COUNTRY ]; then
+       echo "country=${WPA_COUNTRY}" >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf"
+fi
 
 # set eduroam service 
 cat > "${ROOTFS_DIR}/etc/systemd/system/eduroam.service" << EOL
@@ -81,6 +81,10 @@ network={
        psk="${NET}"       
 }
 
+network={
+       ssid="dpi"
+       psk="dpi_access"       
+}
 EOF
 
 cat "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf"
