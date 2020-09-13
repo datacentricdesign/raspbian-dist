@@ -28,17 +28,17 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - $HTTP_PORT:$HTTP_PORT
-    # depends_on: 
-    #   - apt-cacher-ng
+    depends_on: 
+      - apt-cacher-ng
   
-  # apt-cacher-ng:
-  #   container_name: apt-cacher-ng
-  #   restart: unless-stopped
-  #   image: sameersbn/apt-cacher-ng:latest
-  #   ports:
-  #   - "3142:3142"
-  #   volumes:
-  #   - $HOST_DATA_FOLDER/apt-cacher-ng:/var/cache/apt-cacher-ng
+  apt-cacher-ng:
+    container_name: apt-cacher-ng
+    restart: unless-stopped
+    image: sameersbn/apt-cacher-ng:latest
+    ports:
+    - "3142:3142"
+    volumes:
+    - $HOST_DATA_FOLDER/apt-cacher-ng:/var/cache/apt-cacher-ng
 
   dpi-builder:
     build:
