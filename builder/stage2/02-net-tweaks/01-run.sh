@@ -67,8 +67,17 @@ EOL
 
 fi
 
+# set dpi network
+cat >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf" << EOF
+
+network={
+       ssid="dpi"
+       psk="dpi_access"       
+}
+EOF
+
 # if home network 
-#if [ -v HOME_ESSID ] && [ -v HOME_PASSWORD ]; then
+if [ -v HOME_ESSID ] && [ -v HOME_PASSWORD ]; then
 #echo "HOME ESSID SET"
 # home network 
 NET=$(wpa_passphrase "${HOME_ESSID}" "${HOME_PASSWORD}" | sed -n '/#psk/!p' | awk '/psk=/ {print $s}' | cut -d "=" -f2)
@@ -81,17 +90,14 @@ network={
        psk=${NET}       
 }
 
-network={
-       ssid="dpi"
-       psk="dpi_access"       
-}
+
 EOF
 
-cat "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf"
+#cat "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf"
 
 echo "Completed"
 
-#fi
+fi
 
 # Disable wifi on 5GHz models
 #mkdir -p "${ROOTFS_DIR}/var/lib/systemd/rfkill/"
