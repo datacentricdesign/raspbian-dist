@@ -57,6 +57,7 @@ cat > "${ROOTFS_DIR}/etc/systemd/system/ip.service" << EOF
   RestartSec=10
   User=${FIRST_USER_NAME}
   Environment="DIGI_CERT_CA=/tmp/dcd/DigiCertCA.crt"
+  Environment="DATA_PATH=/tmp/dcd"
 
   [Install]
   WantedBy=multi-user.target
