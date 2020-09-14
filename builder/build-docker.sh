@@ -119,6 +119,7 @@ echo "Copying results from deploy/"
 ${DOCKER} cp "${CONTAINER_NAME}":/pi-gen/deploy $2/$1
 ls -lah $2/$1
 
+
 # cleanup
 if [ "${PRESERVE_CONTAINER}" != "1" ]; then
 	${DOCKER} rm -v "${CONTAINER_NAME}"
@@ -127,7 +128,17 @@ fi
 # Remove all unused local volumes
 ${DOCKER} volume prune -f
 
-echo "{\"code\": 0, \"message\":\"The ${IMG_NAME} for 'dcd:things:$1' is ready.\"}" > $2/$1/status.json
-echo "done" > $2/$1/status
+MY_FILE=$2/$1/deploy/image_$1.zip
+if [[ -f "$MY_FILE" ]]; then
+
+	echo "{\"code\": 0, \"message\":\"The ${IMG_NAME} for 'dcd:things:$1' is ready.\"}" > $2/$1/status.json
+	echo "done" > $2/$1/status
+	
+else 
+	echo "{\"code\": -1, \"message\":\"The ${IMG_NAME} for 'dcd:things:$1' has failed.\"}" > $2/$1/status.json
+	echo "failure" > $2/$1/status
+fi
+
+
 
 rm ${CONFIG_FILE}
