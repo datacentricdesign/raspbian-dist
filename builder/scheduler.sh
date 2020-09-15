@@ -26,22 +26,23 @@ do
 	  	if [[ -s ${line}/status ]]; 
 	  		# script has been executed echo "file  ${line}/status has something"; 
 		  	then 
-				if [ -z "$(cat ${line}/status	| grep -x "done")" ]
+				if [ ! -z "$(cat ${line}/status	| grep -x "done")" ]
 				then
-					   # this image is being built 
-				    #   echo "${line}/status is NOT done"
-				      let RUNNING_BUILDS++;
+					# this image has been generated
+				    #   echo "${line}/status is done"
+					let DONE_BUILDS++;
 
-				elif [ -z "$(cat ${line}/status	| grep -x "failure")" ]
+				elif [ ! -z "$(cat ${line}/status	| grep -x "failure")" ]
 				then
-					   # this image is being built 
-				    #   echo "${line}/status is NOT done"
-				      let FAILED_BUILDS++;
+					# this image has failed
+				    #   echo "${line}/status has failed"
+					let FAILED_BUILDS++;
 
 				else
-					  # this image has been generated
-				    #   echo "${line}/status is done"
-				      let DONE_BUILDS++;
+					# this image is being built 
+				    #   echo "${line}/status is NOT done"
+					let RUNNING_BUILDS++;
+
 				fi
 				#CONTENT=$(cat ${line}/status	| grep "done")
 				#echo ${CONTENT}
