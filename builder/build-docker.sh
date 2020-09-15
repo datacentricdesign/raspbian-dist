@@ -54,7 +54,7 @@ if test -z "${CONFIG_FILE}"; then
 	exit 1
 else
 	# shellcheck disable=SC1090
-	source ${CONFIG_FILE} > /dev/null
+	source ${CONFIG_FILE} >/dev/null
 fi
 
 
