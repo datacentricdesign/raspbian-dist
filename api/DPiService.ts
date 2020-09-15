@@ -26,6 +26,8 @@ export class DPiService {
             const data = fs.readFileSync(path, { encoding: 'utf8', flag: 'r' })
             if (data === "") {
                 return Promise.resolve({ code: -1, message: "Pending..." });
+            } else if (data === "failure") {
+                return Promise.reject(new DCDError(500, "Build failed"));
             } else {
                 return Promise.resolve(JSON.parse(data));
             }

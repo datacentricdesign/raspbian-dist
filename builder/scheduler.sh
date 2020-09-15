@@ -15,6 +15,7 @@ do
   PENDING_BUILDS=0
   RUNNING_BUILDS=0
   DONE_BUILDS=0
+  FAILED_BUILDS=0
 
 #   echo "Press <CTRL+C> to exit."
 
@@ -31,6 +32,12 @@ do
 				    #   echo "${line}/status is NOT done"
 				      let RUNNING_BUILDS++;
 
+				elif [ -z "$(cat ${line}/status	| grep -x "failure")" ]
+				then
+					   # this image is being built 
+				    #   echo "${line}/status is NOT done"
+				      let FAILED_BUILDS++;
+
 				else
 					  # this image has been generated
 				    #   echo "${line}/status is done"
@@ -46,7 +53,7 @@ do
 
 	  
 	  done
-	    echo "Running: ${RUNNING_BUILDS} Pending: $PENDING_BUILDS Done: $DONE_BUILDS"
+	    echo "Running: ${RUNNING_BUILDS} Pending: $PENDING_BUILDS Done: $DONE_BUILDS Failed: $FAILED_BUILDS"
 
 		if [ $RUNNING_BUILDS -lt $MAX_RUNNING_BUILDS ]
 		then
