@@ -39,3 +39,7 @@ PRIVATE_KEY="MY_THING_KEY"
     * current script sends processor use & ip address to thing token & id found in .env file in stage2 files.
     * Currently sets an access key to a thing in /etc/ssl/certs (stage 04/06 python installs) . 
 
+## Operational Information 
+* currently deployed on debian server
+* only one 1 concurrent build is allowed right now 
+* each build takes roughly 1 hour 
