@@ -117,8 +117,7 @@ fi
 echo "Copying results from deploy/"
 
 ${DOCKER} cp "${CONTAINER_NAME}":/pi-gen/deploy $2/$1
-ls -lah $2/$1
-
+#ls -lah $2/$1
 
 # cleanup
 if [ "${PRESERVE_CONTAINER}" != "1" ]; then
