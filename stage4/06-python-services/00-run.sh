@@ -45,7 +45,6 @@ cat > "${ROOTFS_DIR}/etc/systemd/system/ip.service" << EOF
   StandardError=syslog 
   Restart=always
   RestartSec=10
-  User=${FIRST_USER_NAME}
 
   [Install]
   WantedBy=multi-user.target
