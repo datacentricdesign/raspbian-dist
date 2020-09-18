@@ -34,7 +34,6 @@ StandardOutput=syslog
 StandardError=syslog 
 Restart=always
 RestartSec=10
-User=${FIRST_USER_NAME}
 
 [Install]
 WantedBy=multi-user.target
