@@ -50,7 +50,6 @@ cat >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf" << EOL
 
 network={
        ssid="${WPA_ESSID}"
-       priority=10
        proto=WPA RSN
        key_mgmt=WPA-EAP
        pairwise=CCMP TKIP
