@@ -60,6 +60,6 @@ do
 	)
 
   # Run the this script every minute
-  sleep FREQUENCY
+  sleep $FREQUENCY
 
 done
