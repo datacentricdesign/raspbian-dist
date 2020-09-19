@@ -19,8 +19,6 @@ export class DPiService {
      * returns DPi
      **/
     async getOneDPiImage(dpiId: string, download: boolean): Promise<any> {
-        // TODO: read and return file in ./dpi/<dpiId>
-
         const path = config.hostDataFolder + '/images/' + dpiId + '/status.json';
         try {
             const data = fs.readFileSync(path, { encoding: 'utf8', flag: 'r' })
@@ -34,9 +32,6 @@ export class DPiService {
         } catch (error) {
             return Promise.reject(error);
         }
-
-        // TODO: if download and image ready, send file
-
     }
 
     /**
@@ -95,15 +90,13 @@ export class DPiService {
             first_user_pass: dtoDPi.first_user_password
         }
 
-
-        // eduroam
-
-
+        // Home network
         if (dtoDPi.home_ESSID && dtoDPi.home_password) {
             dpi.home_ESSID = dtoDPi.home_ESSID
             dpi.home_password = dtoDPi.home_password
         }
 
+        // enterprise network
         if (dtoDPi.wpa_ESSID && dtoDPi.wpa_password && dtoDPi.wpa_country) {
             dpi.wpa_ESSID = dtoDPi.wpa_ESSID
             dpi.wpa_country = dtoDPi.wpa_country

@@ -1,12 +1,8 @@
 #!/bin/bash 
 
-
-
-
-
-MAX_RUNNING_BUILDS=1
-
-SEARCH_LOCATION=$HOST_DATA_FOLDER/images/*
+MAX_RUNNING_BUILDS=1							# How many builds at the same time
+SEARCH_LOCATION=$HOST_DATA_FOLDER/images/*		# Where to find images 
+FREQUENCY=60									# Frequency of running this script (seconds)
 
 # simple process scheduler with limiter arguments 
 
@@ -17,71 +13,53 @@ do
   DONE_BUILDS=0
   FAILED_BUILDS=0
 
-#   echo "Press <CTRL+C> to exit."
+	find $SEARCH_LOCATION  -type d -maxdepth 0 | ( while read -r line ; do
+	# for each directory, check if status is empty
+	if [[ -s ${line}/status ]]; 
+		# the script has been executed because the status file  is not empty
+		then 
+			if [ ! -z "$(cat ${line}/status	| grep -x "done")" ]
+			then
+				# this image has been generated
+				let DONE_BUILDS++;
 
-	  find $SEARCH_LOCATION  -type d -maxdepth 0 | ( while read -r line ; do
-		# for each directory  
-	  	# check if status is empty
+			elif [ ! -z "$(cat ${line}/status	| grep -x "failure")" ]
+			then
+				# this image has failed
+				let FAILED_BUILDS++;
 
-	  	if [[ -s ${line}/status ]]; 
-	  		# script has been executed echo "file  ${line}/status has something"; 
-		  	then 
-				if [ ! -z "$(cat ${line}/status	| grep -x "done")" ]
-				then
-					# this image has been generated
-				    #   echo "${line}/status is done"
-					let DONE_BUILDS++;
-
-				elif [ ! -z "$(cat ${line}/status	| grep -x "failure")" ]
-				then
-					# this image has failed
-				    #   echo "${line}/status has failed"
-					let FAILED_BUILDS++;
-
-				else
-					# this image is being built 
-				    #   echo "${line}/status is NOT done"
-					let RUNNING_BUILDS++;
-
-				fi
-				#CONTENT=$(cat ${line}/status	| grep "done")
-				#echo ${CONTENT}
-			# status is empty so not run yet
 			else
-				# echo "file ${line}/status is empty"; 
-				let PENDING_BUILDS++;
-	  	fi
+				# this image is being built
+				let RUNNING_BUILDS++;
 
-	  
-	  done
-	    echo "Running: ${RUNNING_BUILDS} Pending: $PENDING_BUILDS Done: $DONE_BUILDS Failed: $FAILED_BUILDS"
+			fi
+		# status is empty so not run yet
+		else
+			let PENDING_BUILDS++;
+	fi
 
-		if [ $RUNNING_BUILDS -lt $MAX_RUNNING_BUILDS ]
-		then
-		#   echo "Can run another script"
-		  find $SEARCH_LOCATION  -type d -maxdepth 0  |  while read -r line ; do
-				# for each directory  
-			  	# check if status is empty
-		 
-			  	if ! [[ -s ${line}/status ]]; 
-					# status is empty so not run yet
-					then 
-						 echo "execute ${line}/status";
-						 # TO DO ADD PROPER SCRIPT AND CONFIG LOCATION
-						 bash /build-docker.sh $(basename "$line") $HOST_DATA_FOLDER/images > $line/build.log & # run in background
-						 break
-			  	fi
-			  	#echo $line
-			  
-		 done
+	
+	done
+	echo "{\"running\": ${RUNNING_BUILDS}, \"pending\": $PENDING_BUILDS, \"done\": $DONE_BUILDS, \"failed\": $FAILED_BUILDS}" > $HOST_DATA_FOLDER/scheduler.log
 
-		# else 
-		#   echo "Cannot run another script"
-		fi
-	  ) 
+	if [ $RUNNING_BUILDS -lt $MAX_RUNNING_BUILDS ]
+	then
+		# echo "Can run another script"
+		find $SEARCH_LOCATION  -type d -maxdepth 0  |  while read -r line ; do
+			# for each directory, check if status is empty
+			if ! [[ -s ${line}/status ]]; 
+				# the status is empty, so it has not run yet
+				then 
+					echo "Starting building ${line}";
+					# TODO ADD PROPER SCRIPT AND CONFIG LOCATION
+					bash /build-docker.sh $(basename "$line") $HOST_DATA_FOLDER/images > $line/build.log & # run in background
+					break
+			fi
+		done
+	fi
+	)
 
-  # every minute
-  sleep 5
+  # Run the this script every minute
+  sleep FREQUENCY
 
- 
 done

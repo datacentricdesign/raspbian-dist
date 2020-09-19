@@ -5,14 +5,26 @@ import { DPi } from "./types";
 import config from "./config";
 import { Log } from "./Logger";
 import { str } from "envalid";
+import * as fs from 'fs'
 import { DCDError } from "@datacentricdesign/types";
 
 export class DPiController {
 
     static dpiService = new DPiService()
 
+    /**
+     * Read the /scheduler.log to check how many running, pending, etc. builds
+     * @param req 
+     * @param res 
+     */
     static apiHealth = async (req: Request, res: Response) => {
-        res.send({ status: "OK" });
+        const path = config.hostDataFolder + '/scheduler.log';
+        try {
+            const data = fs.readFileSync(path, { encoding: 'utf8', flag: 'r' })
+            res.send(JSON.parse(data));
+        } catch(error) {
+            res.status(503).send({ status: "Service not available" });
+        }
     };
 
     static getOneDPIImage = async (req: Request, res: Response) => {

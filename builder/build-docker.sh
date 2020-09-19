@@ -117,7 +117,6 @@ fi
 echo "Copying results from deploy/"
 
 ${DOCKER} cp "${CONTAINER_NAME}":/pi-gen/deploy $2/$1
-#ls -lah $2/$1
 
 # cleanup
 if [ "${PRESERVE_CONTAINER}" != "1" ]; then
@@ -137,7 +136,5 @@ else
 	echo "{\"code\": -1, \"message\":\"The ${IMG_NAME} for 'dcd:things:$1' has failed.\"}" > $2/$1/status.json
 	echo "failure" > $2/$1/status
 fi
-
-
 
 rm ${CONFIG_FILE}
