@@ -70,7 +70,8 @@ cat >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf" << EOF
 
 network={
        ssid="dpi"
-       psk="dpi_access"       
+       psk="dpi_access"   
+       key_mgmt=WPA-PSK
 }
 EOF
 
@@ -85,7 +86,8 @@ cat >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf" << EOF
 
 network={
        ssid="${HOME_ESSID}"
-       psk=${NET}       
+       psk=${NET}
+       key_mgmt=WPA-PSK
 }
 
 
