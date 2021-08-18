@@ -11,8 +11,4 @@ pip3 install pyserial
 pip3 install requests 
 pip3 install virtualenv
 
-pip3 uninstall jwt
-pip3 uninstall pyjwt
-pip3 install pyjwt
-
 EOF
