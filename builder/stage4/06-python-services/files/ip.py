@@ -1,15 +1,10 @@
-from dotenv import load_dotenv
 import os
 
 from dcd.bucket.thing import Thing
 from time import sleep
 
-load_dotenv()
-THING_ID = os.getenv("THING_ID", None)
-PRIVATE_KEY_PATH = os.getenv("PRIVATE_KEY_PATH", None)
-
 # Instantiate a thing with its credential
-my_thing = Thing(thing_id=THING_ID, private_key_path=PRIVATE_KEY_PATH)
+my_thing = Thing()
 
 # Find or create a property to store processor usage
 my_property_cpu = my_thing.find_or_create_property("Processor Usage", "CPU")
