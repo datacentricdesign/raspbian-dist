@@ -1,11 +1,11 @@
 [Unit]
-  Description=Automatically send device IP to DCD hub using a python sdk
+  Description=Monitor CPU and Disk usage while automatically sending device IP to DCD hub using the DCD Python SDK
   Wants=network-online.target
   After=network-online.target
 
   [Service]
 
-  ExecStart=/usr/bin/python3.7 /etc/systemd/system/service_scripts/python/ip.py
+  ExecStart=/usr/bin/python3.7 /etc/systemd/system/service_scripts/python/monitor.py
   StandardOutput=syslog 
   StandardError=syslog 
   Restart=always

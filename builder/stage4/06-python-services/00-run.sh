@@ -3,7 +3,7 @@
 # place scripts services depend on
 mkdir -p "${ROOTFS_DIR}/etc/systemd/system/service_scripts/python"
 install -v -d                          "${ROOTFS_DIR}/etc/systemd/system/service_scripts/python"
-install -v -m 755 files/ip.py	       "${ROOTFS_DIR}/etc/systemd/system/service_scripts/python/"
+install -v -m 755 files/monitor.py	       "${ROOTFS_DIR}/etc/systemd/system/service_scripts/python/"
 
 # update .env file 
 cat > files/.env << EOF
@@ -40,18 +40,18 @@ mkdir -p "${ROOTFS_DIR}/tmp/dcd"
 chown root:root "${ROOTFS_DIR}/tmp/dcd"
 chmod 777 -R "${ROOTFS_DIR}/tmp/dcd"
 
-# place ip service
-install -v -m 644 files/ip.service       "${ROOTFS_DIR}/etc/systemd/system/"
+# place monitor service
+install -v -m 644 files/monitor.service       "${ROOTFS_DIR}/etc/systemd/system/"
 
-cat > "${ROOTFS_DIR}/etc/systemd/system/ip.service" << EOF
+cat > "${ROOTFS_DIR}/etc/systemd/system/monitor.service" << EOF
 [Unit]
-  Description=Automatically send device IP to DCD hub using a python sdk
+  Description=Monitor CPU and Disk usage while automatically sending device IP to DCD hub using the DCD Python SDK
   Wants=network-online.target
   After=network-online.target
 
   [Service]
 
-  ExecStart=/usr/bin/python3.7 /etc/systemd/system/service_scripts/python/ip.py
+  ExecStart=/usr/bin/python3.7 /etc/systemd/system/service_scripts/python/monitor.py
   StandardOutput=syslog 
   StandardError=syslog 
   Restart=always
@@ -67,6 +67,6 @@ EOF
 
 # install python services 
 on_chroot << EOF
-systemctl enable ip.service
+systemctl enable monitor.service
 
 EOF
