@@ -7,7 +7,6 @@ import * as fs from 'fs'
 import { spawn, execSync } from "child_process";
 import { Logger, ILogObject } from 'tslog';
 import { Log } from './Logger';
-import { rejects } from 'assert';
 import { DCDError } from '@datacentricdesign/types';
 
 export class DPiService {
@@ -79,6 +78,7 @@ export class DPiService {
         const dpi: any = {
             id: dtoDPi.id.replace('dcd:things:', ''),
             private_key: dtoDPi.private_key,
+            bucket_host: dtoDPi.bucket_host,
             img_name: dtoDPi.img_name !== undefined ? dtoDPi.img_name : config.dpi.img_name,
             keyboard_layout: dtoDPi.keyboard_layout !== undefined ? dtoDPi.keyboard_layout : config.dpi.keyboard_layout,
             keyboard_keymap: dtoDPi.keyboard_keymap !== undefined ? dtoDPi.keyboard_keymap : config.dpi.keyboard_keymap,

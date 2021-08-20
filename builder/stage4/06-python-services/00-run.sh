@@ -10,7 +10,8 @@ cat > files/.env << EOF
 THING_ID=dcd:things:${ID}
 PRIVATE_KEY_PATH=/etc/ssl/certs/dcd:things:${ID}.private.pem
 LOG_PATH=/var/log/dcd/
-
+HTTP_API_URI=https://${BUCKET_HOST}:443/bucket/api
+MQTT_HOST=${BUCKET_HOST}
 EOF
 
 install -v -m 644 files/.env	       "${ROOTFS_DIR}/etc/systemd/system/service_scripts/python/"	

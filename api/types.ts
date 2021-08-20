@@ -19,6 +19,7 @@ export interface DPi {
     wpa_country?: string;
     keyboard_keymap: string;
     locale_default: string;
+    bucket_host?: string;
 }
 
 export interface DTODPi {
@@ -41,4 +42,5 @@ export interface DTODPi {
     wpa_country?: string;
     keyboard_keymap?: string;
     locale_default?: string;
+    bucket_host?: string;
 }
