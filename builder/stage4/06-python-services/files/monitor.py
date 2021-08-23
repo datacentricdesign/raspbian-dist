@@ -1,4 +1,6 @@
 import os
+# A Linux service runs this script, so we make sure it has the proper working directory
+os.chdir("/etc/systemd/system/service_scripts/python")
 
 from dcd.bucket.thing import Thing
 from time import sleep
